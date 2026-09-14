@@ -1,0 +1,119 @@
+Spring Boot is a framework built on top of the Spring 
+Framework that makes it easier to create Java-based applications, 
+especially web applications and REST APIs.
+
+-------------------------------------------------------
+
+      (HTTPS/HTTP)
+        (Request)
+Client -------> Server
+Client <------- Server
+     (HTTP response)
+
+Request -> mathod name , url/path , headers , body
+Response -> Status code , headers , body 
+
+WEBSITE FLOW
+start -> run -> wait for response -> give response -> keep running
+
+---------------------------------------------------------
+
+HTTP->
+HTTP (HyperText Transfer Protocol) is a communication protocol used to 
+transfer information between a client and a server over the internet. 
+When we open a website, the browser acts as the client and sends an HTTP 
+request to the server. The server processes the request and sends an HTTP 
+response back to the browser. HTTP is not encrypted, which means the data being 
+transferred can potentially be intercepted and read by an attacker. 
+Therefore, HTTP is not considered secure for sensitive information such 
+as passwords, banking details, or personal data.
+
+It tells request / response structure , how data will be send
+by default (non encrypted)
+--> GET , POST , DELETE , PUT , PATCH  (calls)
+
+
+
+HTTPS->
+HTTPS (HyperText Transfer Protocol Secure) is the secure version of HTTP. 
+It is used for communication between a client and a server while protecting 
+the data through encryption using TLS (Transport Layer Security). 
+When a user sends sensitive information through an HTTPS connection, 
+the data is encrypted before being transmitted, making it much harder for 
+attackers to read or modify. Websites using HTTPS generally have a URL 
+beginning with https:// and display a lock symbol in the browser.
+
+(encrypted)
+
+--------------------------------------------------------------------------------
+
+FLOW if we used core java (too much manual efforts)-->
+read input streams
+parse request manually
+map a method to an endpoint
+manually build http response
+manually implement multi-threadings
+
+so now we use -->
+Servlet and Servlet Containers
+(1997 , java enterprise edition package (used for web applications))
+
+Servlet class runs inside Servlet Container (inside JVM)
+
+Servlet Containers does -->
+        opens port
+        read incoming bytes
+        pass http request
+        manage threads 
+        create http response
+
+FLOW NOW --> 
+
+                             (http servlet request)
+Client ---> Servlet Container ---> servlet (java class)
+Client <--- Servlet Container <--- servlet (java class)
+                            (http servlet response)
+ 
+----------------------------------------------------------------------------
+
+Spring Framework
+
+Spring Framework is an open-source framework for developing Java applications. 
+It provides a set of tools and features that make it easier to build large, 
+flexible, and maintainable applications. One of its main features is 
+Dependency Injection (DI), where Spring manages the creation and dependencies 
+of objects instead of the programmer creating them manually. 
+Spring also provides features for developing web applications, 
+working with databases, handling transactions, security, and more.
+
+The Spring Framework is based mainly on the concept of IoC (Inversion of Control), 
+which means that the control of creating and managing objects is given to the 
+Spring container. Objects managed by Spring are called Spring Beans. 
+Spring is modular, so developers can use only the features they need.
+
+In simple words, Spring Framework makes Java application development easier 
+by managing objects, reducing tightly coupled code, and providing ready-made 
+features for common application requirements.
+
+Spring Framework vs Spring Boot -->
+Spring Framework is the main framework that provides features such as 
+Dependency Injection, IoC, database support, web development, and security. 
+Spring Boot is built on top of Spring Framework and makes Spring application 
+development easier by providing auto-configuration, starter dependencies, 
+and embedded servers, so much less configuration is required.
+
+----------------------------------------------------------------------------
+
+SPRING ECOSYSTEM
+
+client - > Spring Boot -> Spring JPA  -> Hibernate -> JDBC -> Database
+
+
+Spring Boot -> 
+Spring MVC , Spring data , Spring AOP , Spring Security , Spring AI -> 
+Spring core (DI , IOC) 
+
+----------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------
