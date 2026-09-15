@@ -116,4 +116,119 @@ Spring core (DI , IOC)
 ----------------------------------------------------------------------------
 
 
-----------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+                              MAVEN
+
+Maven is a build and dependency management tool for Java projects.
+In simple words, Maven helps us manage everything needed to build and run a 
+Java/Spring Boot project, such as downloading libraries, compiling code, 
+running tests, and packaging the application.
+
+Think of Maven as a project manager for your Java project. Instead of 
+manually downloading and managing every library, Maven does it for you.
+
+
+Without Maven, you would have to:
+Find the required JAR files.
+Download them.
+Add them to your project.
+Make sure compatible versions are used.
+Download other libraries that those libraries depend on.
+Manage all of this whenever you update your project.
+
+
+Maven Maintains
+   -> folder structure
+   -> helps in compile
+   -> creates JAR code
+   -> Downloads dependencies
+
+---------------------------------------------------------------------------------
+
+POM = Project Object Model
+It contains information about your project, including its dependencies.
+
+It is an XML file used by Maven to describe and manage a Java project.
+
+The pom.xml file contains important information about the project, 
+such as the project name, version, Java version, dependencies, plugins, 
+and build configuration.
+
+The most important use of pom.xml is dependency management. 
+If a project requires external libraries such as Spring Boot, 
+Maven reads the dependencies mentioned in pom.xml and downloads 
+the required libraries automatically.
+
+For example, in a Spring Boot project, if we need Spring Web, 
+its dependency is added to pom.xml. Maven then makes the required 
+Spring Web classes available to the project.
+
+It also helps Maven perform tasks such as compiling the code, 
+running tests, packaging the application, and building the project.
+
+pom.xml is the configuration file of a Maven project that defines 
+project information, dependencies, plugins, and build settings.
+
+--------------------------------------------------------------------------------
+
+JAR stands for Java ARchive.
+A JAR file is basically a compressed package that contains Java code and 
+other files needed to run an application or provide a library.
+Think of it like a ZIP file for Java.
+
+Advantages of JAR
+
+Easy to distribute – Instead of sharing many .class and resource files separately, 
+we can package them into one JAR file.
+
+Easy to run – A Java application can be run using:
+java -jar application.jar
+
+Smaller size – JAR uses compression, so it can reduce the size 
+of the packaged files.
+
+Keeps files organized – Java classes, configuration files, images, a
+nd other resources can be kept together in one package.
+
+Reusable – A JAR can be used as a library in other Java projects.
+
+Easy deployment – In Spring Boot, the application can be packaged as a JAR 
+and deployed to a server easily.
+
+
+
+
+A Library JAR contains reusable Java code that another application uses.
+
+An Application JAR contains a complete Java application that 
+is meant to run by itself.
+
+
+
+Classpath is the location/path where Java looks for the classes and libraries 
+required to run or compile a program.
+In very simple terms:
+Classpath tells Java: "Where should I look for the .class files and JAR 
+files that I need?"
+
+--------------------------------------------------------------------------------
+
+Maven creates a JAR file inside:
+target/
+
+For example:
+target/
+└── demo-0.0.1-SNAPSHOT.jar
+
+That JAR contains your application and the required files/dependencies so 
+it can be run as a Java application.
+
+You can then run it using:
+java -jar demo-0.0.1-SNAPSHOT.jar
+
+-------------------------------------------------------------------------------
+
+.\mvnw.cmd spring-boot:run
+
+----------------------------------------------------------------------------------
