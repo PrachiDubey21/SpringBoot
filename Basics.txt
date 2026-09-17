@@ -231,4 +231,144 @@ java -jar demo-0.0.1-SNAPSHOT.jar
 
 .\mvnw.cmd spring-boot:run
 
-----------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+
+                             MAVEN LIFECYCLE
+
+Definition
+Maven Lifecycle is a predefined sequence of steps that Maven 
+follows to build and manage a Java project. It defines the different 
+stages of the build process, such as validation, compilation, testing, 
+packaging, installation, and deployment.
+
+Maven has three standard lifecycles: Clean, Default, and Site.
+
+
+1. Clean Lifecycle
+The Clean Lifecycle is used to clean the project by removing 
+files generated during previous builds.
+
+The main phases are:
+pre-clean → clean → post-clean
+
+The most commonly used command is:
+mvn clean
+
+In our project, we can use:
+.\mvnw.cmd clean
+
+The clean phase generally removes the target directory.
+
+
+
+2. Default Lifecycl
+The Default Lifecycle is the main lifecycle used for building a Maven project.
+
+Important phases are:
+
+validate
+   ↓
+compile
+   ↓
+test
+   ↓
+package
+   ↓
+verify
+   ↓
+install
+   ↓
+deploy
+
+Validate -> The validate phase checks whether the project is correctly 
+configured and ready for the build process.
+mvn validate
+
+Compile -> The compile phase compiles the Java source code into .class files. 
+.java files → .class files
+mvn compile
+
+Test -> The test phase runs the tests written for the project.
+mvn test
+
+Package -> The package phase packages the compiled application 
+into a distributable format such as a JAR.
+mvn package
+For a Spring Boot application, the JAR is generally created 
+inside the target folder.
+
+Verify -> The verify phase performs additional checks to verify 
+that the project meets the required conditions.
+mvn verify
+
+Install -> The install phase installs the packaged project 
+into the developer's local Maven repository.
+mvn install
+The local Maven repository is generally located at:
+
+C:\Users\<username>\.m2\repository
+
+Deploy -> The deploy phase uploads the packaged project 
+to a remote Maven repository so that it can be shared with other 
+developers or projects.
+mvn deploy
+
+
+3. Site Lifecycle
+
+The Site Lifecycle is used to generate documentation and reports 
+for a Maven project.
+
+Its main phases are:
+pre-site → site → post-site → site-deploy
+
+It is mainly concerned with project documentation rather than 
+building the application.
+
+Important Rule -> 
+Maven executes the phases that come before the phase you specify.
+
+For example, if you run:
+mvn package
+
+Maven performs:
+
+validate
+   ↓
+compile
+   ↓
+test
+   ↓
+package
+
+If you run:
+mvn install
+
+Maven performs the required earlier phases and then install.
+
+Therefore: A later Maven phase automatically includes the 
+required earlier phases.
+
+Maven Lifecycle and Spring Boot
+
+In our Spring Boot project, we use:
+.\mvnw.cmd spring-boot:run
+
+spring-boot:run is not a Maven lifecycle phase. It is a goal 
+provided by the Spring Boot Maven Plugin.
+
+So:
+Maven Lifecycle
+→ compile
+→ test
+→ package
+→ install
+→ deploy
+
+while:
+
+Spring Boot Maven Plugin
+→ spring-boot:run
+→ starts the Spring Boot application
+
+-------------------------------------------------------------------------------
