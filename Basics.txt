@@ -273,7 +273,7 @@ compile
 test
    ↓
 package
-   ↓
+   ↓ 
 verify
    ↓
 install
@@ -372,3 +372,116 @@ Spring Boot Maven Plugin
 → starts the Spring Boot application
 
 -------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+
+Dependency Injection means Spring creates the objects you need and 
+provides them to your class instead of you creating those objects yourself.
+
+Dependency Injection (DI) is a design pattern in which the objects required 
+by a class are provided to it from outside instead of the class creating them 
+itself. In Spring Boot, the Spring IoC container creates and manages these 
+objects, called beans, and provides them to the classes that need them. 
+This reduces tight coupling between classes and makes the application easier 
+to maintain and test. For example, if a UserController needs a UserService, 
+we don't create the UserService using new UserService(). Instead, Spring 
+creates the UserService bean and injects it into the UserController. 
+Dependency Injection can be done mainly through constructor injection, 
+setter injection, and field injection.
+
+----------------------------------------------------------------------------------
+
+Inversion of Control (IoC)
+
+Inversion of Control (IoC) is a principle in which the control of creating, 
+configuring, and managing objects is transferred from the programmer to the 
+Spring Framework. Normally, we create objects ourselves using the new keyword. 
+In Spring, the IoC Container takes responsibility for creating and managing 
+these objects, which are called Beans.
+
+
+
+Without IoC
+Normally, the programmer creates and manages objects:
+
+Programmer
+    ↓
+creates object using new
+    ↓
+Object is created
+    ↓
+Programmer manages the object
+    ↓
+Class uses the object
+
+Example:
+Engine engine = new Engine();
+Car car = new Car(engine);
+
+Here, our code controls object creation.
+
+
+
+With IoC
+In Spring, the control is given to Spring:
+
+              Spring Framework
+                     ↓
+              IoC Container
+                     ↓
+          creates and manages objects
+                     ↓
+                  Beans
+                     ↓
+       provides required objects
+                     ↓
+              Application Classes
+
+So instead of our code creating everything, Spring manages the objects for us.
+
+Example:
+
+@Component
+class Engine {
+}
+
+Spring sees @Component and creates an Engine object and manages it as a Bean.
+
+If another class needs Engine:
+
+@Component
+class Car {
+
+    private Engine engine;
+
+    public Car(Engine engine) {
+        this.engine = engine;
+    }
+}
+
+The flow is:
+
+Engine class
+    ↓
+@Component
+    ↓
+Spring IoC Container
+    ↓
+creates Engine Bean
+    ↓
+Car needs Engine
+    ↓
+Spring provides Engine to Car
+
+---------------------------------------------------------------------------
+
+IOC is a idea or a principle
+DI is a approach/technique to achieve IOC
+
+
+SpringFramework IOC container
+                 -> create objects
+                 -> manage objects 
+                 -> connect objects together
+
+-----------------------------------------------------------------------------
