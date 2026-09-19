@@ -485,3 +485,163 @@ SpringFramework IOC container
                  -> connect objects together
 
 -----------------------------------------------------------------------------
+
+------------------------------------------------------------------------------
+
+Reflection API in Java allows a program to inspect and interact with classes
+, methods, fields, and constructors at runtime.
+
+Normally, we write:
+
+Student s = new Student();
+s.study();
+
+Here, we already know that Student has a study() method.
+With Reflection, Java can discover things about Student while 
+the program is running.
+
+ Class<Student> clazz = Student.class;
+ here clazz stores all the metadata of the student class
+ (it is not an instance variable)
+
+----------------------------------------------------------------------------------
+
+@Component tells Spring:
+"Create and manage an object of this class as a Spring Bean."
+
+
+Application context is an interface that represents 
+IOC container in springframework
+
+
+Component Scan is the process by which Spring searches for classes marked with 
+Spring annotations such as @Component, @Service, @Repository, and @Controller.
+In simple words:
+Component Scan = Spring looking through your packages to find the classes 
+it needs to manage.
+
+
+@Autowired is used for Dependency Injection.
+It tells Spring:
+“Find the required object (bean) and automatically give it to me.”
+
+
+@Primary tells Spring
+“If there are multiple beans of the same type, use this bean by default.”
+
+
+@Qualifier in Spring
+@Qualifier is used when multiple beans of the same type exist 
+and you want to tell Spring exactly which bean to inject.
+
+------------------------------------------------------------------------------
+
+Types of dependency injection 
+              -> constructor
+              -> setter
+              -> field
+
+
+Why is Constructor Injection Recommended?
+Dependencies are mandatory — The object cannot be created without its 
+required dependencies.
+
+Supports final fields — Dependencies can be declared as final, 
+making them safer and immutable.
+
+Easy to test — Dependencies can be directly passed through 
+the constructor during unit testing.
+
+Clear dependencies — The constructor clearly shows what dependencies 
+the class needs.
+
+Prevents NullPointerException — Required dependencies are provided when 
+the object is created.
+
+Less Spring-specific code — You don't need @Autowired when the 
+class has only one constructor.
+
+Better maintainability — The class's dependencies are explicit and 
+easier to understand.
+
+--------------------------------------------------------------------------------
+
+Steps of ApplicationContext in Spring
+
+1) Create the Spring container
+ApplicationContext context =
+    new AnnotationConfigApplicationContext(AppConfig.class);
+
+2) Spring reads the configuration
+It reads @Configuration, @ComponentScan, @Bean, etc.
+
+3) Spring scans for components
+It finds classes marked with @Component, @Service, @Repository, @Controller, etc.
+
+4) Spring creates the beans
+Objects of these classes are created and managed by the Spring container.
+
+5) Spring performs Dependency Injection
+Dependencies are automatically provided using constructor injection, 
+@Autowired, etc.
+
+6) ApplicationContext stores and manages the beans
+You can get a bean from the container:
+StudentService service = context.getBean(StudentService.class);
+
+7) Application uses the beans
+You use the objects provided by Spring instead of creating them manually.
+
+Simple flow
+
+Create ApplicationContext
+        ↓
+Read Configuration
+        ↓
+Component Scanning
+        ↓
+Create Beans
+        ↓
+Dependency Injection
+        ↓
+Manage Beans
+        ↓
+Get and Use Beans
+
+---------------------------------------------------------------------------------
+
+When is @Bean used?
+
+Use @Bean when you want to manually create an object and give 
+it to Spring to manage.
+
+Common situations:
+
+
+
+Third-party classes ->
+
+You cannot add @Component to a class you don't own.
+@Bean
+public ObjectMapper objectMapper() {
+    return new ObjectMapper();
+}
+
+
+
+Custom object creation -> 
+
+When creating the object requires some configuration or logic.
+@Bean
+public Student student() {
+    return new Student("Prachi", 20);
+}
+
+
+ -> When you need a specific configuration
+You can configure the object before giving it to Spring.
+
+ -> When you want only a particular object to become a Spring Bean
+You explicitly decide which object Spring should manage.
+
+----------------------------------------------------------------------------------
