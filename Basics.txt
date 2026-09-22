@@ -534,6 +534,10 @@ It tells Spring:
 @Qualifier is used when multiple beans of the same type exist 
 and you want to tell Spring exactly which bean to inject.
 
+@Configuration is a Spring annotation used to tell Spring:
+“This class contains configuration information and defines Beans that 
+Spring should create and manage.”
+
 ------------------------------------------------------------------------------
 
 Types of dependency injection 
