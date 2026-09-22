@@ -534,6 +534,7 @@ It tells Spring:
 @Qualifier is used when multiple beans of the same type exist 
 and you want to tell Spring exactly which bean to inject.
 
+
 @Configuration is a Spring annotation used to tell Spring:
 “This class contains configuration information and defines Beans that 
 Spring should create and manage.”
@@ -649,3 +650,30 @@ You can configure the object before giving it to Spring.
 You explicitly decide which object Spring should manage.
 
 ----------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------
+
+Bean Scope in Spring Boot
+Bean scope means how long a Spring Bean lives and 
+
+how many objects (instances) Spring creates for that Bean.
+In simple words:
+Bean Scope tells Spring how to create and manage the object of a Bean.
+
+
+1. Singleton Scope
+Singleton is the default Bean scope in Spring.
+It means that Spring creates only one instance of a Bean within 
+the Spring IoC Container.
+By default
+Eager initialization
+stateless
+
+
+2. Prototype Scope
+Prototype scope means Spring creates a new object whenever the Bean 
+is requested from the container.
+@Scope("prototype")
+lazy initialization
+stateful
+-------------------------------------------------------------------------------
