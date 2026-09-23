@@ -539,6 +539,14 @@ and you want to tell Spring exactly which bean to inject.
 “This class contains configuration information and defines Beans that 
 Spring should create and manage.”
 
+
+@Lazy in Spring Boot
+@Lazy means Spring will not create a Bean immediately when the 
+application starts. Instead, Spring creates the Bean only when 
+that Bean is actually needed.
+Without @Lazy
+Normally, Spring uses eager initialization for singleton Beans.
+
 ------------------------------------------------------------------------------
 
 Types of dependency injection 
