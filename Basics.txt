@@ -685,3 +685,60 @@ is requested from the container.
 lazy initialization
 stateful
 -------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+
+Bean Lifecycle in Spring
+Bean lifecycle means the complete journey of a Spring Bean — 
+from the moment Spring creates the object until the moment Spring 
+removes it from the IoC Container.
+
+ * IOC container start
+ * read configuration
+ * Read all Bean Definition
+ * Instantiate objects (dependency aware)
+ * Dependency injection
+
+//IMP 
+ * Aware interface are called (if implemented)
+An Aware Interface is a Spring interface that allows a Bean to ask Spring 
+for some information about the environment in which it is running.
+"What is my Bean name?"
+"What is the ApplicationContext?"
+"What is the BeanFactory?"
+"What is the Environment?"    
+ etc...........
+ callback methods are the methods that spring call itself
+ 
+ * initialization callback
+ In the Spring Bean Lifecycle, an initialization callback is a method that 
+ Spring calls after the Bean has been created and its dependencies 
+ have been injected, but before the Bean is ready to be used.
+ all the callbacks are done before business logic calls but after 
+ objects are created and dependencies are resolved
+
+            methods -> initializing bean (needs to implement an interface)
+                    -> init method (needs to create a bean)
+                    -> post construct (needs jakarta annotation)
+
+ * object is handed over to client (in case of prototype bean)
+ * end (in case of prototype bean)
+
+ * Bean is ready to use
+
+ * Destruction callbacks
+ In the Spring Bean Lifecycle, a destruction callback is a method that 
+ Spring calls when the Spring IoC Container is shutting down and the 
+ Bean is being destroyed.
+
+          methods -> Disposable Bean (interface) (uses context.close())
+                  -> destroy method
+                  -> pre destroy
+
+ * Bean is destroyed
+
+
+
+// We can Solve circular dependency using PostConstruct
+
+-------------------------------------------------------------------------------
