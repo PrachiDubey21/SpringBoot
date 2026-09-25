@@ -742,3 +742,20 @@ for some information about the environment in which it is running.
 // We can Solve circular dependency using PostConstruct
 
 -------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+
+XML-based configuration means we use an XML file to tell Spring 
+which objects (Beans) it should create and manage, and how 
+those objects are connected to each other.
+
+Before annotations like:
+@Component
+@Bean
+@Autowired
+became common, Spring applications often used an XML file for configuration.
+
+
+//Field injection cannot be done here
+
+-------------------------------------------------------------------------------
