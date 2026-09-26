@@ -759,3 +759,73 @@ became common, Spring applications often used an XML file for configuration.
 //Field injection cannot be done here
 
 -------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+
+Spring Core -> Annotation based , XML based
+Spring Boot -> Annotation based
+
+
+@SpringBootApplication is the main annotation of a Spring Boot application.
+It is generally placed on the main application class.
+
+@SpringBootApplication is a combination of three annotations:
+@SpringBootApplication
+        ↓
+ ┌─────────────────────────┐
+ │ @Configuration          │
+ │ @EnableAutoConfiguration│
+ │ @ComponentScan          │
+ └─────────────────────────┘
+
+
+ @Configuration
+Indicates that the class is a configuration class for Spring.
+It allows us to define Beans using @Bean.
+
+
+@EnableAutoConfiguration
+Tells Spring Boot to automatically configure the application based 
+on the dependencies available in the project.
+For example, when Spring Web dependencies are present, Spring Boot can 
+automatically configure the components required for a web application.
+
+
+@ComponentScan
+Tells Spring to scan packages for Spring components such as:
+@Component
+@Service
+@Repository
+@Controller
+@RestController
+
+
+
+
+What is @AutoConfiguration?
+@AutoConfiguration is a Spring Boot annotation used to define 
+automatic configuration classes.
+
+It tells Spring Boot:
+“Automatically configure these beans when the required conditions are satisfied.”
+It is mainly used by Spring Boot itself and library/starter developers to 
+provide automatic configuration.
+
+Without auto-configuration, you would often have to manually create and 
+configure many beans.
+For example, if your project has the Spring Web dependency, Spring Boot can 
+automatically configure things needed for a web application, such as:
+
+Embedded Tomcat
+Spring MVC
+DispatcherServlet
+Web-related beans
+Default web configuration
+
+So instead of configuring everything yourself, Spring Boot does much of the 
+setup automatically.
+
+
+
+
+-------------------------------------------------------------------------------
