@@ -825,7 +825,47 @@ Default web configuration
 So instead of configuring everything yourself, Spring Boot does much of the 
 setup automatically.
 
-
-
+-------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
+
+application.properties (non java file) is a configuration file provided by Spring Boot.
+It is used to store the settings and configuration values of a 
+Spring Boot application.
+
+The main purpose is to keep configuration separate from Java code.
+For example, instead of writing the server port inside Java code, we can write:
+server.port=8081
+Spring Boot reads this value and runs the application on port 8081.
+
+When we start:
+SpringApplication.run(DemoApplication.class, args);
+Spring Boot starts the application and automatically loads the configuration 
+from application.properties.
+
+
+Some more external files 
+              -> System properties
+              -> env variables
+              -> application.yaml
+              -> application.properties
+              -> command line args
+
+
+@Value is used to inject values from application.properties 
+(or other configuration sources) directly into a Java field, 
+constructor parameter, or method parameter.
+
+ConfigurationProperties in Spring Boot
+@ConfigurationProperties is used when we have multiple related configuration 
+values in application.properties and want to store them together in a Java class.
+It is generally cleaner than using many @Value annotations.
+
+-------------------------------------------------------------------------------
+
+ApplicationRunner is an interface in Spring Boot that 
+lets you run some code automatically after the Spring Boot 
+application has started.
+It is useful when you want to perform some task once during application startup.
+
+----------------------------------------------------------------------------------
