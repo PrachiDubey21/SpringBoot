@@ -1,0 +1,18 @@
+                   Controller - Service - Repository
+
+postman -> student controller(HTTP/req) -> student service(Buisness logic)
+-> student repository(DB interact) -> DB
+
+postman <- student controller(HTTP/req) <- student service(Buisness logic)
+<- student repository(DB interact) <- DB
+
+
+-----------------------------------------------------------------------------
+
+Student - POJO class
+
+POJO stands for Plain Old Java Object.
+A POJO is a simple Java class that is mainly used to store data. 
+It does not need to extend a particular class or implement a special interface.
+
+-------------------------------------------------------------------------------
