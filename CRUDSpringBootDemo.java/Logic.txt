@@ -16,3 +16,104 @@ A POJO is a simple Java class that is mainly used to store data.
 It does not need to extend a particular class or implement a special interface.
 
 -------------------------------------------------------------------------------
+
+@RestController is used in Spring Boot to create REST APIs that 
+handle HTTP requests.
+It returns data directly as the HTTP response, such as String, JSON, or objects.
+
+@Controller is used in Spring Boot to create a 
+controller class that handles HTTP requests.
+It is mainly used when returning HTML pages or views from the application.
+
+-------------------------------------------------------------------------------
+
+CRUD Operations in REST API
+Create → POST → /api/students
+Read One → GET → /api/students/{id}
+Read All → GET → /api/students
+Update → PUT → /api/students/{id}
+Delete → DELETE → /api/students/{id}
+
+-----------------------------------------------------------------------------
+
+@RequestMapping
+@RequestMapping is used to map HTTP requests to a controller method.
+It can define the URL path and the HTTP method such as GET, POST, PUT, or DELETE.
+It can be used at both class level and method level.
+It is a general-purpose annotation; specific annotations like @GetMapping 
+and @PostMapping are commonly used for individual HTTP methods.
+
+
+@RequestBody
+@RequestBody is used to receive data from the HTTP request body and 
+convert it into a Java object.
+It is commonly used with POST and PUT requests when sending JSON data.
+Spring automatically converts the JSON data into the corresponding Java object.
+
+
+@Service
+@Service is used to mark a class as a service layer component in Spring Boot.
+It contains the business logic of the application.
+Spring automatically creates and manages its object (bean).
+
+------------------------------------------------------------------------------
+
+ResponseEntity
+ResponseEntity is used in Spring Boot to control the 
+complete HTTP response returned by a REST API.
+It allows us to specify the response body, HTTP status code, and headers.
+It is commonly used when we want different responses for different situations.
+
+------------------------------------------------------------------------------
+
+Operation	      Spring JPA Method	          Equivalent SQL
+Create	          save()	                  INSERT INTO student ...
+Read All	      findAll()	                  SELECT * FROM student
+Read One          findById()	              SELECT * FROM student WHERE id = ...
+Delete            deleteById()	              DELETE FROM student WHERE id = ...
+Update	          save()                      UPDATE student SET ...
+
+existsById()
+It is used to check whether a record with a particular ID 
+exists in the database.
+
+-----------------------------------------------------------------------------
+
+@PathVariable
+@PathVariable is used to extract a value from the URL path 
+and store it in a Java variable.
+It is commonly used when working with a specific resource, such as 
+finding a student by ID.
+
+
+@RequestBody
+@RequestBody is used to receive data from the HTTP 
+request body and convert it into a Java object.
+It is mainly used with POST and PUT requests to receive JSON data.
+Spring automatically converts the JSON data into the corresponding Java object.
+
+
+@RequestParam
+@RequestParam is used to get a value from the URL query parameter.
+Query parameters are written after ? in the URL.
+It is commonly used for filtering, searching, sorting, or passing optional values.
+
+
+--------------------------------------------------------------------------------
+
+Optional<Student>
+Optional<Student> is used when a method may or may 
+not return a Student object.
+It helps handle the situation where a student with the given 
+ID does not exist, instead of directly returning null.
+findById() in Spring Data JPA returns Optional<Student>.
+
+-------------------------------------------------------------------------------
+
+PATCH Method
+PATCH is an HTTP method used to partially update an existing resource.
+It updates only the fields that need to be changed, 
+instead of replacing the entire object.
+It is commonly used with @PatchMapping in Spring Boot.
+
+------------------------------------------------------------------------------
