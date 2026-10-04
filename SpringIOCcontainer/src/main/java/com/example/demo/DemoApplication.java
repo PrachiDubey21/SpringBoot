@@ -16,7 +16,6 @@ public class DemoApplication {
                 new AnnotationConfigApplicationContext(AppConfig.class);
 
         OrderService order = context.getBean(OrderService.class);
-
         order.placeOrder();
     }
 }
