@@ -871,3 +871,31 @@ It is useful when you want to perform some task once during application startup.
 ----------------------------------------------------------------------------------
 
 ---------------------------------------------------------------------------------
+
+Tomcat is a web server and Servlet container that allows 
+Java web applications, including Spring Boot applications, 
+to run and handle HTTP requests.
+
+IOC container -> Beans
+Tomcat Server -> Servlet
+
+
+
+HttpServletRequest is a Java/Spring object that represents 
+the HTTP request sent by the client to your server.
+
+HttpServletResponse represents the HTTP response that your server 
+sends back to the client.
+
+So,
+HttpServletRequest = what the client sends to the server
+HttpServletResponse = what the server sends back to the client
+
+
+@WebServlet
+@WebServlet is a Servlet annotation used to tell the Servlet container 
+(like Tomcat) that a particular Java class is a Servlet and should 
+handle requests for a specific URL.
+It is part of the Jakarta Servlet API.
+
+----------------------------------------------------------------------------
