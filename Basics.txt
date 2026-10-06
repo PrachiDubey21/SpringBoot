@@ -898,4 +898,116 @@ HttpServletResponse = what the server sends back to the client
 handle requests for a specific URL.
 It is part of the Jakarta Servlet API.
 
+
+provided scope
+Your application needs this dependency to compile and run, but the 
+dependency is expected to be provided by the runtime environment/server.
+
 ----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+What is Spring MVC?
+Spring MVC is a module of the (official Web Framework)Spring Framework 
+used to develop web applications and REST APIs in Java.
+
+MVC stands for:
+
+M — Model: Represents application data.
+V — View: Represents what is shown to the user.
+C — Controller: Handles HTTP requests and controls the flow of the application.
+
+The main purpose of Spring MVC is to handle HTTP requests and 
+generate appropriate responses.
+
+
+
+Client (Browser / Postman)
+          ↓
+      HTTP Request
+          ↓
+        Tomcat
+          ↓
+   DispatcherServlet
+          ↓
+      Controller
+          ↓
+       Service
+          ↓
+     Repository
+          ↓
+      Database
+          ↓
+     HTTP Response
+          ↓
+Client (Browser / Postman)
+
+
+
+
+
+What is DispatcherServlet?
+DispatcherServlet is the central component of Spring MVC that 
+receives incoming HTTP requests and sends them to the appropriate Controller.
+
+It acts as a Front Controller for the Spring MVC application.
+
+
+Client / Postman
+       ↓
+HTTP Request
+       ↓
+     Tomcat
+       ↓
+DispatcherServlet
+       ↓
+   Controller
+       ↓
+    Service
+       ↓
+  Repository
+       ↓
+   Database
+
+After processing:
+
+Database
+   ↓
+Repository
+   ↓
+Service
+   ↓
+Controller
+   ↓
+DispatcherServlet
+   ↓
+HTTP Response
+   ↓
+Client
+
+----------------------------------------------------------------------------
+
+Important Annotations
+
+Annotation	             Purpose
+@Controller	             Marks a class as a Spring MVC controller
+@RestController	         Controller used mainly for REST APIs
+@GetMapping	             Handles GET requests
+@PostMapping             Handles POST requests
+@PutMapping	             Handles PUT requests
+@DeleteMapping	         Handles DELETE requests
+@RequestBody	         Converts request JSON into a Java object
+@PathVariable	         Gets a value from the URL
+@RequestParam	         Gets a value from a query parameter
+
+---------------------------------------------------------------------------
+
+Handler Mapping (creates a mapping table)
+Handler Mapping is a component of Spring MVC that helps the DispatcherServlet 
+find which Controller and method should handle an incoming HTTP request.
+
+
+HandlerMethodArgumentResolver is a Spring MVC interface that is used to resolve 
+the arguments (parameters) of a Controller method.
+
+---------------------------------------------------------------------------
