@@ -1011,3 +1011,14 @@ HandlerMethodArgumentResolver is a Spring MVC interface that is used to resolve
 the arguments (parameters) of a Controller method.
 
 ---------------------------------------------------------------------------
+
+@EnableWebMvc
+@EnableWebMvc is a Spring MVC annotation that enables and configures 
+the basic Spring MVC infrastructure in a Spring application.
+It is used on a configuration class
+
+
+
+
+
+---------------------------------------------------------------------------
