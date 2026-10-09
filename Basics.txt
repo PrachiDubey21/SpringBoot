@@ -1048,3 +1048,99 @@ we can use validation annotations.
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
+
+API response: 
+       -> body {data}
+       -> headers {Key-value pair}
+       -> status code {meaning of the response}
+
+-----------------------------------------------------------------------------
+
+# HTTP Status Codes
+
+HTTP status codes are 3-digit numbers sent by the server to 
+indicate the result of an HTTP request. 
+They are divided into five categories: 1xx, 2xx, 3xx, 4xx, and 5xx.
+
+## 1. 1xx – Informational Responses
+
+The request has been received, and the server is continuing the process.
+
+* **100 Continue:** Client can continue sending the request.
+* **101 Switching Protocols:** Server agrees to switch protocols.
+* **102 Processing:** Server is processing the request.
+* **103 Early Hints:** Server sends preliminary information before the final response.
+
+## 2. 2xx – Success Responses
+
+The request was successfully received and processed.
+
+* **200 OK:** Request completed successfully.
+* **201 Created:** A new resource was created successfully.
+* **202 Accepted:** Request was accepted for processing but may not be completed yet.
+* **204 No Content:** Request succeeded, but no response body is returned.
+* **206 Partial Content:** Only part of a resource was returned.
+
+## 3. 3xx – Redirection Responses
+
+Further action is required, usually to access a resource at another URL.
+
+* **301 Moved Permanently:** Resource has permanently moved to another URL.
+* **302 Found:** Resource is temporarily available at another URL.
+* **303 See Other:** Client should retrieve another URL, generally using GET.
+* **304 Not Modified:** Resource has not changed, so a cached copy can be used.
+* **307 Temporary Redirect:** Temporary redirection that preserves the HTTP method.
+* **308 Permanent Redirect:** Permanent redirection that preserves the HTTP method.
+
+## 4. 4xx – Client Error Responses
+
+The request has a problem or the client does not have permission to access the resource.
+
+* **400 Bad Request:** Request is invalid or malformed.
+* **401 Unauthorized:** Authentication is required or has failed.
+* **403 Forbidden:** Client does not have permission to access the resource.
+* **404 Not Found:** Requested resource or endpoint was not found.
+* **405 Method Not Allowed:** HTTP method is not supported for that endpoint.
+* **406 Not Acceptable:** Server cannot provide an acceptable response format.
+* **408 Request Timeout:** Server timed out waiting for the request.
+* **409 Conflict:** Request conflicts with the current state of the resource.
+* **415 Unsupported Media Type:** Request content type is not supported.
+* **422 Unprocessable Content:** Request is understood but cannot be processed due to its content.
+* **429 Too Many Requests:** Client has sent too many requests in a given period.
+
+## 5. 5xx – Server Error Responses
+
+The server failed to fulfill a valid request.
+
+* **500 Internal Server Error:** An unexpected error occurred on the server.
+* **501 Not Implemented:** Server does not support the required functionality.
+* **502 Bad Gateway:** Gateway received an invalid response from an upstream server.
+* **503 Service Unavailable:** Server is temporarily unable to handle requests.
+* **504 Gateway Timeout:** Gateway did not receive a timely response from an upstream server.
+
+## Important HTTP Status Codes in Spring Boot
+
+* **200 OK:** Data fetched successfully.
+* **201 Created:** Student or other resource created successfully.
+* **204 No Content:** Operation succeeded without a response body.
+* **400 Bad Request:** Invalid input or validation failure.
+* **401 Unauthorized:** Authentication is missing or invalid.
+* **403 Forbidden:** User lacks the required permission.
+* **404 Not Found:** Requested endpoint or resource does not exist.
+* **405 Method Not Allowed:** HTTP method is not supported by the endpoint.
+* **409 Conflict:** Request conflicts with existing resource state.
+* **500 Internal Server Error:** Unexpected application error.
+
+
+
+* **1xx:** Informational
+* **2xx:** Success
+* **3xx:** Redirection
+* **4xx:** Client error
+* **5xx:** Server error
+
+**Note:** 401 relates to authentication, whereas 403 relates to permission. 
+In Spring Boot, `ResponseEntity` can be used to return the appropriate 
+HTTP status code from a controller.
+
+--------------------------------------------------------------------------------
