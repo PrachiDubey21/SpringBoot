@@ -1017,8 +1017,34 @@ the arguments (parameters) of a Controller method.
 the basic Spring MVC infrastructure in a Spring application.
 It is used on a configuration class
 
-
-
-
-
 ---------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+Data Transfer Object (DTO)
+A DTO (Data Transfer Object) is a simple Java object used to transfer data 
+between different layers of an application, especially between the client 
+and the backend.
+
+The main idea is:
+DTO carries only the data that needs to be transferred.
+
+----------------------------------------------------------------------------
+
+Validation in Spring Boot is the process of checking whether the data 
+received from a client is correct and satisfies the required conditions 
+before processing or saving it.
+
+For example, in your Student CRUD project, we may want to ensure that:
+
+Student name is not empty.
+Age is within an acceptable range.
+Email has a valid format.
+Required fields are provided.
+
+Instead of manually checking every field using if-else statements, 
+we can use validation annotations.
+
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
