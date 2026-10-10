@@ -1144,3 +1144,95 @@ In Spring Boot, `ResponseEntity` can be used to return the appropriate
 HTTP status code from a controller.
 
 --------------------------------------------------------------------------------
+
+Default Exception Handling in Spring Boot
+
+
+1. Concept
+In Spring Boot, default exception handling means Spring Boot automatically 
+handles an exception when an error occurs in an application, even 
+if we have not written our own exception-handling code.
+
+For example, suppose you request a student using an ID that does not exist. 
+An exception may occur, and Spring Boot can return an HTTP error response 
+instead of allowing the application to crash completely.
+Spring Boot provides default error handling through Spring MVC and its 
+error-handling infrastructure, including BasicErrorController.
+
+
+2. How it works
+
+Client (Postman)
+Sends an HTTP request
+       |
+       |
+       |
+Controller
+Processes the request
+       |
+       |
+       |
+Exception occurs 
+For example, a resource is not found
+       |
+       |
+       |
+Spring Boot error handling
+Produces an appropriate error response
+       |
+       |
+       |
+HTTP error response
+Status code and error details
+
+---------------------------------------------------------------------------
+
+Exception Handler in Spring Boot
+
+
+1. Concept
+
+An exception handler is used to handle errors that occur while an application 
+is running and return a meaningful response instead of an unstructured error.
+
+In Spring Boot, the @ExceptionHandler annotation is used to handle specific 
+exceptions in a controller.
+For example, if a student ID does not exist, instead of returning a generic 
+error, we can handle the exception and return a message 
+such as "Student not found" with the appropriate HTTP status code.
+
+
+2. How it works
+
+Client sends request
+       |
+Controller / Service
+       |
+Exception occurs
+       |
+@ExceptionHandler handles the exception
+       |
+Client receives an error response
+
+----------------------------------------------------------------------------
+
+@RestControllerAdvice is an annotation in Spring Boot used to handle 
+exceptions globally across multiple controllers.
+Suppose your application has StudentController, EmployeeController, 
+and ProductController. If an exception occurs in any of them, you can 
+handle it in one common class instead of writing separate exception-handling 
+methods in every controller.
+It combines the behavior of @ControllerAdvice and @ResponseBody, 
+so the handler's return value is written directly to the HTTP response body, 
+usually as JSON when returning an object.
+
+
+
+@ControllerAdvice is an annotation used to handle exceptions and provide 
+common functionality across multiple Spring MVC controllers from one central 
+class.
+Instead of writing the same exception-handling code in every controller, 
+we can create one class annotated with @ControllerAdvice and define shared 
+methods inside it.
+
+-----------------------------------------------------------------------------
