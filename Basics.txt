@@ -1236,3 +1236,108 @@ we can create one class annotated with @ControllerAdvice and define shared
 methods inside it.
 
 -----------------------------------------------------------------------------
+
+------------------------------------------------------------------------------
+
+In Spring, configuration means telling the Spring container how to create, 
+configure, and manage objects (beans) and how those objects should work together.
+
+Think of it this way: your application has classes such as OrderService and 
+PaymentService. Spring needs to know which objects to create and which 
+dependencies to provide to each object. Configuration gives Spring those 
+instructions.
+
+Example -
+
+You have these classes:
+- PaymentService — performs the payment.
+- OrderService — places an order and needs PaymentService.
+- AppConfig — tells Spring how to configure the application.
+
+The flow is:
+
+AppConfig
+Provides configuration instructions
+      |
+Spring Container
+Creates and manages beans
+      |
+OrderService + PaymentService
+Dependencies are connected
+
+-----------------------------------------------------------------------------
+
+(priority wise)
+application.properties > application.yml 
+
+----------------------------------------------------------------------------
+
+Profiling in Spring Boot
+
+
+1. Concept
+
+In Spring Boot, profiles allow us to use different configurations for 
+different environments, such as development, testing, and production.
+For example, while developing your CRUD application, you might use one MySQL 
+database for development and a different database on the production server. 
+Profiles let you switch configurations without changing your Java code.
+Think of profiles as different sets of settings for the same application.
+
+
+2. Why do we use profiles?
+
+Suppose you have three environments:
+- Development (dev) — for writing and testing code on your computer.
+- Testing (test) — for checking whether the application works correctly.
+- Production (prod) — for the application used by real users.
+
+Each environment can have different database URLs, logging levels, 
+or other settings.
+
+
+3. How to configure profiles
+In Spring Boot, we commonly use separate properties files.
+src/main/resources
+
+application.properties
+Common settings
+
+application-dev.properties
+Development settings
+
+application-test.properties
+Testing settings
+
+application-prod.properties
+Production settings
+
+
+
+
+//{spring.profiles.active=dev}
+//we can give external configuration through 
+                       // terminal
+                         //mvn spring-boot:run "-Dspring-boot.run.profiles=dev"
+                       // env variables
+
+-----------------------------------------------------------------------------
+
+@Profile in Spring Boot
+
+
+1. Concept
+The @Profile annotation is used to register a Spring bean only when a 
+specific profile is active.
+
+For example, you might want to use one PaymentService implementation 
+during development and another in production. Instead of manually 
+changing your Java code, you can use @Profile to tell Spring which 
+
+implementation to create.
+- @Profile("dev") → bean is registered when the dev profile is active.
+- @Profile("prod") → bean is registered when the prod profile is active.
+- If the profile doesn't match, that bean is not registered through 
+that profile-specific definition.
+
+-----------------------------------------------------------------------------
