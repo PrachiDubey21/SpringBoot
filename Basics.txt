@@ -1341,3 +1341,147 @@ implementation to create.
 that profile-specific definition.
 
 -----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
+
+1. What is a Filter?
+
+A Filter in Spring Boot is a component that intercepts HTTP requests and 
+responses before they reach the controller or before the response 
+goes back to the client.
+
+Filters are commonly used for:
+- Logging incoming requests.
+- Checking authentication or authorization (security checks).
+- Adding or modifying request/response headers.
+- Measuring request processing time.
+- Applying common request-processing logic.
+- Encoding (UTF-8)
+
+
+Functions of Filters in Spring Boot
+1. Inspect the request.
+2. Inspect headers.
+3. Inspect cookies.
+4. Check authentication information.
+5. Add response headers.
+6. Modify request or response wrappers.
+7. Block the request.
+8. Allow the request to continue.
+9. Log request details.
+10. Measure total request duration.
+
+
+
+2. How does a Filter work?
+
+Client / Postman
+       |
+       | 
+Filter — before request processing
+       |
+       |
+DispatcherServlet
+       |
+       |
+Controller → Service → Repository
+       |
+       |
+Filter — after request processing
+       |
+       |
+Response to client
+
+
+The filter can execute logic before calling the next component 
+and again after that component finishes.
+
+
+3. Create a Filter
+Create MyFilter.java in your package com.example.demo.
+
+
+
+
+//filter has raw request.
+//filter is not aware of the controller that is going to call/work
+//filter can perform all the general purpose actions that are common 
+for all the controllers
+
+
+----------------------------------------------------------------------------
+
+Lifecycle of a Filter
+
+1. Instantiation: The servlet container creates the filter object.
+2. Initialization — init(): Called once to initialize the filter and 
+prepare resources.
+3. Request processing — doFilter(): Called for each matching request. 
+The filter can inspect or modify the request, perform checks, and decide 
+whether to continue processing.
+4. Pass request — chain.doFilter(): Passes the request to the next filter 
+or servlet. After downstream processing returns, the filter can process the 
+response.
+5. Destruction — destroy(): Called when the container removes the filter, 
+allowing it to release resources.
+
+
+
+Lifecycle flow
+
+Filter created
+        |
+init() — initialize once
+        | 
+doFilter() — process each matching request
+        |
+chain.doFilter() — continue the request
+        |
+Response returns through the filter chain
+        |
+destroy() — release resources
+
+
+Remember: init() is called once per filter instance, 
+doFilter() is called for each matching request, and destroy() is 
+called when the filter is taken out of service. The container controls 
+the lifecycle.
+
+-----------------------------------------------------------------------------
+
+Filter Chain in Spring Boot is a sequence of filters through which 
+an HTTP request passes before reaching the servlet or controller.
+
+
+How it works
+
+Suppose you have three filters:
+
+Client / Postman
+        |
+Filter 1 — Logging
+        |
+Filter 2 — Authentication
+        |
+Filter 3 — Request Validation
+        |
+DispatcherServlet → Controller
+
+
+
+What is FilterChain?
+
+FilterChain is an interface that allows the current filter to pass the request 
+and response to the next filter in the chain.
+
+chain.doFilter(request, response);
+
+
+- Before this line: The current filter can inspect or modify the request.
+- At this line: Processing continues to the next filter or servlet.
+- After this line: The filter can inspect or modify the response as it returns.
+
+If you don't call chain.doFilter(), the request generally stops at that 
+filter and doesn't reach the next component.
+
+-----------------------------------------------------------------------------
