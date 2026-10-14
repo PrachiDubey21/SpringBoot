@@ -1494,4 +1494,138 @@ filter and doesn't reach the next component.
 @Order is used to define the priority or execution order of components, 
 such as filters, when multiple components of the same kind are registered.
 
+-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
+
+Content, Cache and Response Wrapper in Java Servlets
+
+
+1. Content
+
+Content is the data sent by the server to the client in response to a request. 
+It can be plain text, HTML, JSON, or other formats.
+
+Important methods:
+- setContentType() – specifies the type of response content.
+- getWriter() – writes text into the response.
+- getOutputStream() – writes binary data into the response.
+
+Example:
+response.setContentType("text/plain");
+response.getWriter().write("Hello");
+
+Here, the server sends the text Hello to the browser.
+
+
+
+2. Cache
+
+A cache stores copies of responses or resources so they can be reused, 
+reducing repeated requests and improving performance.
+
+In Servlets, caching can be controlled using HTTP response headers.
+
+Example:
+response.setHeader("Cache-Control", "no-store");
+
+
+
+3. Response Wrapper
+
+A response wrapper is used to customize or intercept an HTTP response 
+before it is sent to the client.
+
+Java provides the HttpServletResponseWrapper class for this purpose.
+
+Example:
+HttpServletResponseWrapper wrapper =
+		new HttpServletResponseWrapper(response);
+
+-----------------------------------------------------------------------------
+
+ContentCachingResponseWrapper is a class in Spring Framework used to cache 
+or temporarily store the response body in memory before sending it to the client.
+
+It extends HttpServletResponseWrapper and allows the application to read the 
+response content after it has been written.
+
+Important points
+- It stores the response body in a byte array.
+- It allows the application to access the cached response content.
+- It is useful for logging, auditing, and inspecting HTTP responses.
+- The cached response must be copied to the actual response using copyBodyToResponse().
+
+-------------------------------------------------------------------------------
+
+Response Body 
+         -> status code
+         -> header
+         -> Body
+
+
+Request Body 
+         -> Http method (read only)
+         -> end points (read only)
+         -> body
+         -> header (read only)
+         -> request parameter (read only)
+
 --------------------------------------------------------------------------
+
+HttpServletRequestWrapper
+
+HttpServletRequestWrapper is a Java Servlet API class that wraps an existing 
+HttpServletRequest object and allows us to customize or modify request handling.
+
+Uses:
+- Modify request parameters.
+- Customize request headers.
+- Intercept or process incoming requests.
+- Add additional request-related functionality.
+
+
+
+
+HttpServletResponseWrapper
+
+HttpServletResponseWrapper is a Java Servlet API class that wraps an existing 
+HttpServletResponse object and allows us to customize or modify response handling.
+
+Uses:
+- Modify response headers.
+- Customize response status codes.
+- Intercept response output.
+- Add functionality such as response logging or content transformation.
+
+----------------------------------------------------------------------------
+
+//getReader() consumes the data (input stream is not stored)
+
+----------------------------------------------------------------------------
+
+FilterRegistrationBean in Spring Boot
+
+FilterRegistrationBean is a Spring Boot class used to register a Servlet 
+filter and configure its settings, such as the URL patterns it applies to 
+and its execution order.
+
+A filter can process HTTP requests before they reach a servlet and process 
+responses as they return to the client.
+
+Example
+Suppose you want to log every request received by your application.
+
+-----------------------------------------------------------------------------
+
+OncePerRequestFilter in Spring Boot
+
+OncePerRequestFilter is an abstract class provided by Spring that ensures a 
+filter's main filtering logic is executed once per request within a single 
+request thread/dispatch context, rather than repeatedly during certain servlet 
+dispatches.
+
+It is commonly used for request logging, authentication, authorization, and 
+JWT token validation.
+
+----------------------------------------------------------------------------
