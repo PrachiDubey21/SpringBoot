@@ -1629,3 +1629,273 @@ It is commonly used for request logging, authentication, authorization, and
 JWT token validation.
 
 ----------------------------------------------------------------------------
+
+----------------------------------------------------------------------------
+
+In Spring MVC, interceptors are used to perform actions before and after a 
+request is handled by a controller.
+
+
+How interceptors work
+
+1. Client sends a request
+Browser → Spring MVC
+
+2. preHandle()
+Runs before the controller
+
+3. Controller executes
+Processes the request
+
+4. postHandle()
+Runs after the controller, before the view renders
+
+5. afterCompletion()
+Runs after request processing is complete
+
+
+
+The three important methods
+
+Method            	Purpose
+
+preHandle()     	Executes before the controller. Can allow or block the 
+                        request.
+postHandle()    	Executes after the controller but before the view is 
+                        rendered.
+afterCompletion()	Executes after request processing finishes, typically 
+                        for cleanup or logging.
+
+
+
+Where are interceptors useful?
+
+- Authentication checks: Check whether a user is logged in.
+- Logging: Record incoming requests.
+- Execution time: Measure how long a request takes.
+- Request validation: Check certain request conditions before controller 
+execution.
+
+
+Remember: An interceptor works around the controller's request handling, 
+while a filter works at the servlet level and can run before the 
+request reaches Spring MVC.
+
+----------------------------------------------------------------------------
+
+Difference between Filter and Interceptor 
+
+1. Definition: A Filter processes requests and responses at the Servlet level, 
+whereas an Interceptor works with Spring MVC request handling.
+
+2. Execution: A Filter runs before the request reaches the Spring MVC 
+DispatcherServlet (depending on its mapping), while an Interceptor runs 
+before the controller executes.
+
+3. Framework: A Filter belongs to the Java Servlet API, whereas an Interceptor 
+belongs to Spring MVC.
+
+4. Controller access: A Filter does not directly know which controller method 
+will handle the request, whereas an Interceptor can access the selected handler.
+
+5. Methods: A Filter uses doFilter(), whereas an Interceptor uses 
+preHandle(), postHandle(), and afterCompletion().
+
+6. Purpose: Filters are commonly used for CORS, request/response wrapping, 
+and general request processing, whereas Interceptors are used for 
+controller-related logging and request checks.
+
+7. Execution after processing: A Filter can perform work after the filter 
+chain returns, whereas an Interceptor provides specific callbacks before 
+and after controller execution and after request completion.
+
+8. Dependency: Filters can work independently of Spring MVC, whereas 
+Interceptors are designed to integrate with Spring MVC.
+
+------------------------------------------------------------------------------
+
+Client (Browser)
+      |
+      v
+Tomcat Server
+      |
+      v
+Filter Chain
+   |
+   |--> Filter 1
+   |--> Filter 2
+   |--> Filter 3
+      |
+      v
+DispatcherServlet
+      |
+      v
+Interceptor Chain
+   |
+   |--> Interceptor 1 (preHandle)
+   |--> Interceptor 2 (preHandle)
+      |
+      v
+Controller
+      |
+      v
+Service
+      |
+      v
+Repository
+      |
+      v
+Database
+
+------------------------------------------------------------------------------
+
+//interceptors can track which method to call
+
+
+//in Spring MVC, a handler is the actual component or method that 
+handles a particular request. Most commonly, it is a controller method.
+
+
+//HandlerInterceptor is an interface in Spring MVC that allows 
+us to execute code before and after a controller handles a request.
+It is used to intercept requests without modifying the controller's code.
+
+
+//@Nullable ModelAndView means the ModelAndView return value is 
+allowed to be null.
+
+
+//ModelAndView is a Spring MVC class that holds two things:
+- Model: The data to send to the view.
+- View: The name of the page to display.
+
+
+//WebMvcConfigurer is an interface in Spring MVC that lets us customize the 
+default MVC configuration without replacing the entire configuration.
+We use it to register interceptors, configure resource handlers, 
+add formatters, and customize other MVC settings.
+
+
+//HandlerAdapter is a component in Spring MVC that helps the 
+DispatcherServlet execute the selected handler.
+The DispatcherServlet identifies which handler should process a request, 
+and the HandlerAdapter knows how to invoke that handler
+
+------------------------------------------------------------------------------
+
+Client
+  ↓ Sends HTTP request
+
+Tomcat Server
+  ↓ Receives the request
+
+DispatcherServlet
+  ↓ Handles and coordinates the request
+
+HandlerMapping
+  ↓ Finds the matching controller method
+
+Interceptor 1: preHandle()
+  ↓ Checks the request before the controller
+
+Interceptor 2: preHandle()
+  ↓ Performs another pre-controller check
+
+HandlerAdapter
+  ↓ Invokes the selected handler
+
+StudentController: createStudent()
+  ↓ Handles the request and calls the service
+
+Service Layer
+  ↓ Executes business logic
+
+Repository Layer
+  ↓ Performs database operations
+
+Database
+  ↓ Stores or retrieves student data
+
+Interceptor 2: postHandle()
+  ↓ Runs after the controller, before view rendering
+
+Interceptor 1: postHandle()
+  ↓ Runs after the controller, before view rendering
+
+Response Processing
+  ↓ Prepares the response for the client
+
+Interceptor 2: afterCompletion()
+  ↓ Performs cleanup or logging after request processing
+
+Interceptor 1: afterCompletion()
+  ↓ Performs cleanup or logging after request processing
+
+Filter Chain
+  ↓ Completes response processing in reverse order
+
+Tomcat Server
+  ↓ Sends the HTTP response
+
+Client
+  ↓ Receives the response
+
+
+
+
+Point-wise flow of Spring MVC
+
+1. Client: Sends an HTTP request, for example, POST /api/students 
+with student data.
+
+2. Tomcat Server: Receives the HTTP request and passes it through 
+the configured filter chain.
+
+3. Filter Chain: Filters process the request for tasks such as checking 
+headers or handling CORS, then pass it onward.
+
+4. DispatcherServlet: Receives the request and coordinates its processing 
+in Spring MVC.
+
+5. HandlerMapping: Identifies the controller method that matches 
+the request URL and HTTP method.
+
+6. Interceptor — preHandle(): Runs before the controller and can 
+check the request or stop it from proceeding.
+
+7. HandlerAdapter: Invokes the selected controller handler.
+
+8. StudentController — createStudent(): Handles the request and 
+calls the service layer.
+
+9. Service Layer: Applies the application's business logic and calls 
+the repository.
+
+10. Repository Layer: Performs database operations, such as saving a student.
+
+11. Database: Stores the student data and returns the operation's result.
+
+12. Controller returns the result: The result travels back through the 
+service and controller layers.
+
+13. Interceptor — postHandle(): Runs after the handler returns but 
+before view rendering, when applicable.
+
+14. Response processing: Spring MVC prepares the response, such as 
+JSON for a REST API or a rendered JSP page.
+
+15. Interceptor — afterCompletion(): Runs after request processing 
+finishes, typically for logging or cleanup.
+
+16. Filter Chain: Completes any remaining filter processing as the 
+response returns.
+
+17. Tomcat Server: Sends the HTTP response back to the client.
+
+18. Client: Receives the response, such as a success message or the 
+created student's details.
+
+Remember: HandlerMapping finds the handler, HandlerAdapter invokes it, 
+and HandlerInterceptor runs callbacks around handler execution.
+
+-------------------------------------------------------------------------------
