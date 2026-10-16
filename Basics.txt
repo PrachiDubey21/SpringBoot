@@ -1899,3 +1899,12 @@ Remember: HandlerMapping finds the handler, HandlerAdapter invokes it,
 and HandlerInterceptor runs callbacks around handler execution.
 
 -------------------------------------------------------------------------------
+
+Pattern       	Meaning                 	                  Example
+
+/api/	          Matches the specific/api/ path	            /api/
+/api/*	        Matches one path segment after /api/      	/api/students
+/api/**	        Matches paths at any depth under /api/	    /api/students, 
+                                                            /api/students/101
+
+---------------------------------------------------------------------------------
