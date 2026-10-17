@@ -1908,3 +1908,79 @@ Pattern       	Meaning                 	                  Example
                                                             /api/students/101
 
 ---------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------
+
+Spring AOP (Aspect-Oriented Programming) is a feature in Spring that 
+helps us handle common tasks like logging, security, and performance 
+monitoring without repeating the same code in every method.
+
+
+
+Important terms in Spring AOP
+
+Term	           Simple meaning
+Aspect	         A class containing common functionality, such as logging.
+Advice	         The code that should execute, and when it should execute.
+Pointcut         A rule that selects which methods should be intercepted.
+Join point	     A point during program execution where advice can apply. 
+                 In Spring's proxy-based AOP, this is typically a method execution.
+Target object	   The actual object containing the business logic.
+Proxy	           An object Spring uses to intercept calls and apply AOP behavior.
+
+
+
+Types of advice
+
+- @Before — Runs before the selected method.
+
+- @After — Runs after the method finishes, whether normally or exceptionally.
+
+- @AfterReturning — Runs when the method completes successfully.
+
+- @AfterThrowing — Runs when the method throws an exception.
+
+- @Around — Wraps the method execution, allowing code to run before and 
+after it, or even control whether it proceeds.
+
+-----------------------------------------------------------------------------
+
+// filter -> wraps a raw incoming request
+// interceptor -> wraps a controller
+// AOP -> wraps a method
+
+-----------------------------------------------------------------------------
+
+1. Scattering
+Scattering occurs when the code for one common functionality is spread across 
+multiple classes or methods.
+For example, suppose you have StudentService, TeacherService, and CourseService.
+ If each class contains its own logging code, the logging functionality 
+ is scattered across multiple classes.
+
+
+2. Tangling
+Tangling occurs when multiple types of functionality are mixed together 
+inside the same class or method.
+
+------------------------------------------------------------------------------
+
+Student Controller
+        |
+        | calls createStudent()
+        ↓
+    Decorator
+        |
+        | executes infrastructure logic
+        | (Logging / Security / Monitoring)
+        ↓
+  StudentServiceImpl
+        |
+        | executes business logic
+        ↓
+    Return Result
+        |
+        ↓
+Student Controller
+
+-----------------------------------------------------------------------------
