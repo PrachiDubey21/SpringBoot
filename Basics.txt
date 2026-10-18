@@ -1984,3 +1984,214 @@ Student Controller
 Student Controller
 
 -----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
+
+Spring AOP primarily uses proxy-based techniques, not the Decorator Pattern 
+itself. A proxy can add behavior that looks similar to decoration, 
+but the design intent differs.
+
+Remember: both patterns wrap objects, and their implementations can 
+look similar. The main difference is their purpose: proxy controls access; 
+decorator extends behavior.
+
+-----------------------------------------------------------------------------
+
+@Aspect is an annotation in Spring AOP that marks a class as an Aspect, 
+meaning the class contains cross-cutting logic such as logging, 
+execution-time measurement, or security checks.
+
+-----------------------------------------------------------------------------
+
+Advice is the actual piece of code that runs when a particular method is 
+intercepted by Spring AOP.
+For example, suppose you want to print a message before saving a student. 
+The code that prints that message is called Advice.
+
+
+@Before
+@Before executes before the matched method starts executing
+
+
+
+@After
+@After executes after the matched method finishes, whether it finishes 
+normally or throws an exception.
+
+
+
+@Around wraps the execution of a target method. It can perform some work 
+before the method, execute the original method, and then perform additional 
+work afterward.
+
+
+
+
+@AfterReturning and @AfterThrowing are Spring AOP advice annotations used 
+to execute code based on how a method finishes.
+
+1. @AfterReturning
+@AfterReturning executes only when the target method completes successfully 
+without throwing an exception.
+
+
+2. @AfterThrowing
+@AfterThrowing executes only when the target method throws an exception.
+
+
+
+Advice	           When it executes	                          Example output
+
+@Before	           Before the method executes	                Before saving student → Student saved
+@After	           After the method finishes, 
+                   even if an exception occurs	              Student saved → Saving attempt finished
+@AfterReturning	   Only after successful completion	          Student saved → Student saved successfully
+@AfterThrowing	   When the method throws an exception	      Error while saving student
+@Around	           Wraps the method execution	                Before method → Student saved → After method
+
+-----------------------------------------------------------------------------
+
+1. Pointcut Expression
+
+A Pointcut Expression specifies which methods Spring AOP should intercept 
+to execute additional logic.
+
+execution(String in.strikes.aopDemo.service.StudentService.createStudent())
+
+
+
+Let's break it down:
+
+Part              	Meaning
+execution         	Matches a method execution.
+String	            The method must return a String.
+in.strikes.aopDemo.service	The package containing the class.
+StudentService	    The class whose method is matched.
+createStudent()	    The method name, with no parameters.
+
+
+So, this expression targets the createStudent() method in StudentService, 
+provided it returns String and has no parameters.
+
+Think of it like a filter that selects the method where you want your 
+extra code to run.
+
+
+
+2. Advice
+
+Advice is the actual code that executes when a matched method is intercepted.
+
+In your screenshot:
+@Before("execution(String in.strikes.aopDemo.service.StudentService.createStudent())")
+public void logBeforeMethod() {
+    System.out.println("Student is going to be saved");
+}
+
+
+Here:
+
+- @Before specifies that the advice runs before the matched method.
+
+- logBeforeMethod() contains the extra logic.
+
+- System.out.println(...) is the actual action performed by the advice.
+
+
+So, the advice prints a message before createStudent() executes.
+When createStudent() is called through the Spring AOP proxy, 
+
+
+
+the execution proceeds like this:
+
+Pointcut Expression
+Selects StudentService.createStudent()
+         |
+Advice (@Before)
+Prints "Student is going to be saved"
+         |
+Original method
+Prints "Student saved" and returns "SUCCESS"
+
+-----------------------------------------------------------------------------
+
+1. StudentController receives the createStudent() request.
+                         |
+                         v
+2. StudentController calls createStudent()
+   on the Student Proxy.
+                         |
+                         v
+3. Student Proxy executes loggingAspect.logBeforeMethod()
+   before calling the actual service.
+                         |
+                         v
+4. Student Proxy calls StudentService.createStudent().
+                         |
+                         v
+5. StudentService executes the actual business logic
+   to create/save the student.
+                         |
+                         v
+6. The response returns through the proxy
+   to StudentController.
+                         |
+                         v
+7. StudentController returns the response to the client.
+
+------------------------------------------------------------------------------
+
+Join Point is a point during program execution where additional behavior 
+can be applied, such as when a method executes.
+In Spring AOP, join points are specifically method executions.
+
+When createStudent() executes through the Spring AOP proxy, 
+that method execution is the Join Point.
+
+StudentController
+       |
+       v
+Student Proxy
+       |
+       |----> Join Point: createStudent()
+       |           |
+       |           v
+       |      StudentService
+       |
+       v
+Logging Advice executes before the method
+
+
+
+
+
+
+ProceedingJoinPoint is an interface in Spring AOP used mainly with 
+@Around advice to control the execution of the original method.
+
+The most important thing it provides is the proceed() method, which calls 
+the actual target method.
+
+
+       @Around Advice
+             |
+             v
+    Print "Before method"
+             |
+             v
+    joinPoint.proceed()
+             |
+             v
+    Original Service Method
+             |
+             v
+    Method returns its result
+             |
+             v
+    Print "After method"
+             |
+             v
+    Return result to caller
+
+---------------------------------------------------------------------------
