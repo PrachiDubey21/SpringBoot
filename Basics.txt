@@ -2195,3 +2195,81 @@ the actual target method.
     Return result to caller
 
 ---------------------------------------------------------------------------
+
+a designator is a keyword in a pointcut expression that tells Spring what 
+kind of join point to match or how to select it.
+
+
+For example, in your code:
+execution(* com.example.demo.service.StudentService.dummyMethod(..))
+
+Here, execution is the designator. It tells Spring to match the execution of a 
+method.
+
+
+
+Common pointcut designators
+
+Designator	  Meaning	                                                                  Example
+
+execution	  Matches method execution based on its signature.	                           execution(* com.example.demo.service.StudentService.*(..))
+within	     Matches join points within a specified type or package.	                  within(com.example.demo.service.*)
+args	        Matches methods based on the types of their runtime arguments.	            args(String)
+@annotation	  Matches methods annotated with a specific annotation.	                     @annotation(Deprecated)
+@within	     Matches methods in types annotated with a specified annotation.	            @within(org.springframework.stereotype.Service)
+this	        Matches based on the type of the Spring AOP proxy.	                        this(com.example.demo.service.StudentService)
+target	     Matches based on the type of the target object.	                           target(com.example.demo.service.StudentService)
+
+
+
+
+Breaking down pointcut expression
+
+execution(* com.example.demo.service.StudentService.dummyMethod(..))
+
+- execution → Designator: selects method executions.
+- * → Any return type.
+- com.example.demo.service.StudentService → Target class.
+- dummyMethod → Method name.
+- (..) → Any number of parameters, of any types.
+
+---------------------------------------------------------------------------
+
+wildcards in Spring AOP pointcut expressions are symbols used to match 
+multiple method names, return types, packages, or parameters instead of 
+writing an exact match.
+
+
+Common wildcards in Spring AOP
+
+Wildcard	   Meaning	                                                                                 Example
+*	         Matches any single name/type pattern, depending on its position.	                        execution(* com.example.demo.service.*.*(..))
+..	         Matches any number of parameters, or any number of package levels in supported patterns.	execution(* com.example.demo.service.StudentService.*(..))
++	         Matches a type and its subtypes.	                                                         within(com.example.demo.service.StudentService+)
+
+
+
+// .. -> 0 or 1 (packages , subpackages)
+// * -> 1 , // * * -> 2 and so on
+
+
+//execution -> method level
+//within -> class level
+//@annotation -> method level + annotation check on method
+// bean -> bean name
+//@within -> class level + annotation check on class (exact class)
+//@target -> class level + annotation check on class (inherit works)
+//args -> particular argument , method level
+//@args -> particular argument with an annotation , method level
+//this -> proxy (CGLIB default springboot) , (JDK DYNAMIC proxy spring MVC , springcore)
+//target -> object
+
+
+
+@Pointcut in Spring AOP is used to define a reusable pointcut expression 
+that can be shared by multiple advice methods.
+
+Instead of writing the same long expression repeatedly, you define it once 
+and refer to its method name.
+
+-----------------------------------------------------------------------------
