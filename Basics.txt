@@ -2273,3 +2273,230 @@ Instead of writing the same long expression repeatedly, you define it once
 and refer to its method name.
 
 -----------------------------------------------------------------------------
+
+a meta-annotation is an annotation that is itself annotated with 
+another annotation.
+In simple words, an annotation applied to another annotation is called 
+a meta-annotation.
+
+
+
+
+ElementType.TYPE is a constant from Java's ElementType enum. 
+It tells Java where an annotation is allowed to be applied.
+@Target(ElementType.TYPE)
+Here, TYPE means the annotation can be applied to classes, interfaces, 
+enums, and annotation declarations.
+not on method
+
+
+
+
+
+@Retention is a Java meta-annotation that specifies how long an annotation 
+should be retained.
+
+It determines whether an annotation is available only in source code, 
+in the compiled .class file, or at runtime.
+
+
+
+
+
+Types of @Retention
+
+There are three retention policies.
+
+
+
+1. RetentionPolicy.SOURCE
+
+The annotation is available only in the source code and is discarded 
+by the compiler when compiling the code.
+
+@Retention(RetentionPolicy.SOURCE)
+public @interface MyAnnotation {
+}
+
+Example use: @Override is a source-retained annotation.
+
+
+
+2. RetentionPolicy.CLASS
+
+The annotation is stored in the compiled .class file, but it is not 
+required to be available through runtime reflection. 
+This is the default retention policy if you don't specify @Retention.
+
+@Retention(RetentionPolicy.CLASS)
+public @interface MyAnnotation {
+}
+
+
+
+
+3. RetentionPolicy.RUNTIME
+
+The annotation is stored in the .class file and remains available at runtime. 
+Java reflection can read it while the program is running.
+
+@Retention(RetentionPolicy.RUNTIME)
+public @interface MyAnnotation {
+}
+
+
+
+This is especially useful when creating custom annotations for Spring 
+or Spring AOP.
+
+
+
+Policy	   Source code	  Compiled class	 Available through reflection at runtime
+SOURCE	   Yes	        No	             No
+CLASS	      Yes	        Yes	             No
+RUNTIME	   Yes	        Yes	             Yes
+
+
+
+
+
+@Documented is a Java meta-annotation that tells Java to include your 
+custom annotation in the generated API documentation, usually created using 
+Javadoc.
+
+-----------------------------------------------------------------------------
+
+Spring Bean Lifecycle — Step by Step
+
+
+1. Read bean definition
+Spring reads the bean definitions from configuration sources 
+such as @Component, @Bean, and configuration classes. 
+It learns which objects need to be created and how their dependencies 
+should be provided.
+
+
+
+2. Instantiate the object
+Spring creates the bean object by calling its constructor.
+@Service
+public class StudentService {
+    public StudentService() {
+        System.out.println("Constructor called");
+    }
+}
+
+
+
+3. Inject dependencies
+Spring injects the required dependencies into the bean, usually through 
+constructor injection, setter injection, or field injection.
+
+
+
+4. Bean-aware callbacks
+If the bean implements Spring's aware interfaces, Spring calls the 
+relevant methods. For example, BeanNameAware lets the bean receive its name, 
+and ApplicationContextAware lets it receive the application context.
+
+
+
+5. Run BeanPostProcessor before initialization
+Spring calls the postProcessBeforeInitialization() method of registered 
+BeanPostProcessor implementations.
+
+This allows Spring or custom code to inspect or modify the bean before 
+its initialization callbacks run. For example, certain annotation-processing 
+logic takes place during this stage.
+
+@Override
+public Object postProcessBeforeInitialization(
+        Object bean, String beanName) {
+    System.out.println("Before initialization: " + beanName);
+    return bean;
+}
+
+
+
+
+6. Run initialization callbacks
+Spring invokes the bean's initialization methods, if configured. 
+Common examples include:
+
+- Methods annotated with @PostConstruct
+- The afterPropertiesSet() method from InitializingBean
+- A custom initialization method configured through @Bean(initMethod = "...")
+
+These methods are useful for performing setup after dependencies have been 
+injected.
+
+
+
+7. Run BeanPostProcessor after initialization
+Spring calls the postProcessAfterInitialization() method of registered 
+BeanPostProcessor implementations.
+
+This allows further processing after initialization. Spring AOP commonly 
+creates or returns a proxy for a bean during this stage, when the bean 
+needs to be advised. The proxy may become the object reference that other 
+beans use.
+
+@Override
+public Object postProcessAfterInitialization(
+        Object bean, String beanName) {
+    System.out.println("After initialization: " + beanName);
+    return bean;
+}
+
+
+Both methods must return an object. Returning null stops further 
+BeanPostProcessor processing for that bean.
+
+
+
+
+8. Store the final bean reference
+Spring completes bean creation and makes the final bean reference available 
+in the application context. This may be the original object or a proxy 
+wrapping it.
+
+For example, if StudentService has AOP advice applied, another bean may 
+receive a proxy rather than the raw StudentService object.
+
+
+Complete lifecycle order
+
+1 Read bean definition
+
+2 Instantiate object
+
+3 Inject dependencies
+
+4 Bean-aware callbacks
+
+5 BeanPostProcessor — before initialization
+
+6 Initialization callbacks (@PostConstruct, etc.)
+
+7 BeanPostProcessor — after initialization
+
+8 Register/expose final bean reference
+
+---------------------------------------------------------------------------
+
+
+flowchart Top down
+
+    A["Spring Beans are created (StudentService)"]
+    B["Dependencies are injected"]
+    C["Initialization (@PostConstruct)"]
+    D["BeanPostProcessor"]
+    E{"Does any aspect apply?"}
+    F["Proxy (BEAN)"]
+    G["Target Object (BEAN)"]
+
+    A --> B --> C --> D --> E
+    E -->|Yes| F
+    E -->|No| G
+
+----------------------------------------------------------------------------
