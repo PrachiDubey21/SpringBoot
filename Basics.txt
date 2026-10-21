@@ -2593,3 +2593,45 @@ Type 3	   Network Protocol	  Not on each client	            Through middleware
 Type 4	   Thin Driver	        No	                           Directly with database
 
 ------------------------------------------------------------------------------
+
+JDBC Methods: 
+
+
+1. executeQuery()
+executeQuery() is a method of the JDBC Statement interface used to execute 
+SQL queries that retrieve data from a database.
+
+It is mainly used with the SELECT statement. It returns a ResultSet object 
+containing the records retrieved from the database. The returned records can 
+then be accessed one by one.
+
+Example use: Fetching all student records from a database.
+
+
+
+2. executeUpdate()
+executeUpdate() is a method of the JDBC Statement interface used to 
+execute SQL statements that modify database records or change the database 
+structure.
+
+It is commonly used with INSERT, UPDATE, and DELETE statements. 
+It can also execute DDL statements such as CREATE TABLE. For DML statements, 
+it returns an integer representing the number of affected rows; for 
+DDL statements, it returns 0.
+
+Example use: Inserting a new student or updating a student's age.
+
+
+
+3. execute()
+execute() is a method of the JDBC Statement interface used to execute SQL 
+statements when the type of result may vary.
+
+It can execute different types of SQL statements. It returns a boolean value: 
+true if the first result is a ResultSet, or false if the first result is an 
+update count or there is no result.
+
+Example use: Executing a SQL statement when the application needs to determine 
+whether the result is a result set or an update count.
+
+------------------------------------------------------------------------------
