@@ -2196,6 +2196,8 @@ the actual target method.
 
 ---------------------------------------------------------------------------
 
+----------------------------------------------------------------------------
+
 a designator is a keyword in a pointcut expression that tells Spring what 
 kind of join point to match or how to select it.
 
@@ -2273,6 +2275,8 @@ Instead of writing the same long expression repeatedly, you define it once
 and refer to its method name.
 
 -----------------------------------------------------------------------------
+
+------------------------------------------------------------------------------
 
 a meta-annotation is an annotation that is itself annotated with 
 another annotation.
@@ -2500,3 +2504,92 @@ flowchart Top down
     E -->|No| G
 
 ----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
+
+                                    JDBC
+                         JAVA DATABASE CONNECTIVITY 
+
+It is a Java API that allows Java applications to connect to databases, execute 
+SQL queries, insert, update, delete and retrieve data.
+
+
+
+
+JDBC drivers are software components that allow a Java application to 
+communicate with a database through JDBC (Java Database Connectivity).
+
+Different databases use different communication protocols, so a suitable 
+JDBC driver translates JDBC calls into commands that the database can understand.
+
+
+Types of JDBC Drivers
+
+There are four types of JDBC drivers.
+
+
+
+1. Type 1: JDBC-ODBC Bridge Driver
+
+This driver converts JDBC calls into ODBC (Open Database Connectivity) calls, 
+which are then used to communicate with the database.
+
+Working: Java Application → JDBC → JDBC-ODBC Bridge → ODBC Driver → Database
+
+Disadvantages: It requires an ODBC driver and is platform-dependent. 
+The JDBC-ODBC Bridge was removed from the JDK in Java 8, so it is not used in 
+modern Java applications.
+
+
+
+2. Type 2: Native-API Driver
+
+This driver converts JDBC calls into database-specific native API calls. 
+It requires native database client libraries to be installed on the user's 
+system.
+
+Working: Java Application → JDBC Driver → Native Database Library → Database
+
+Disadvantages: It depends on platform-specific native libraries and requires 
+additional installation.
+
+
+
+3. Type 3: Network Protocol Driver
+
+This driver sends JDBC calls to a middleware server, which translates them 
+into the database-specific protocol and communicates with the database.
+
+Working: Java Application → JDBC Driver → Middleware Server → Database
+
+Advantages: It can support multiple database types through middleware and does not require native database libraries on every client.
+
+Disadvantages: It requires a middleware server, which adds complexity and may 
+introduce network overhead.
+
+
+
+
+4. Type 4: Thin Driver (Pure Java Driver)
+
+This driver converts JDBC calls directly into the database's native network 
+protocol. It is written entirely in Java and communicates directly with the 
+database server.
+
+Working: Java Application → Type 4 JDBC Driver → Database
+
+Advantages: It is platform-independent, does not require native libraries, and is commonly used in modern Java applications.
+
+Examples: MySQL Connector/J for MySQL and pgJDBC for PostgreSQL.
+
+
+
+Comparison of JDBC Drivers
+
+Type	      Name	              Native library required?	      Communication
+Type 1	   JDBC-ODBC Bridge	  ODBC driver required	         Through ODBC
+Type 2	   Native-API	        Yes	                           Through native API
+Type 3	   Network Protocol	  Not on each client	            Through middleware
+Type 4	   Thin Driver	        No	                           Directly with database
+
+------------------------------------------------------------------------------
