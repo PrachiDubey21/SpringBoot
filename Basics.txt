@@ -2635,3 +2635,98 @@ Example use: Executing a SQL statement when the application needs to determine
 whether the result is a result set or an update count.
 
 ------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------
+
+Spring JDBC is a module of the Spring Framework that simplifies database 
+operations in Java applications. It is built on top of standard JDBC and 
+reduces the amount of repetitive code required to connect to a database, 
+execute SQL queries, process results, and handle exceptions.
+
+In traditional JDBC, developers must manually manage connections, statements, 
+result sets, and exception handling. Spring JDBC handles much of this 
+repetitive work, allowing developers to focus on writing SQL queries and 
+application logic.
+
+
+The main purpose of Spring JDBC is to make database access easier and reduce 
+boilerplate code.
+
+
+Its major advantages include:
+
+1. Less code: Reduces repetitive JDBC operations.
+
+2. Exception handling: Converts JDBC's checked SQL exceptions into Spring's 
+unchecked DataAccessException hierarchy.
+
+3. Resource management: Automatically manages resources such as connections 
+and statements.
+
+4. Easy query execution: Provides convenient methods for executing SQL queries.
+
+5. Integration with Spring: Works with dependency injection and Spring 
+transaction management.
+
+
+
+JdbcTemplate is the main class commonly used in Spring JDBC. 
+It executes SQL statements and handles resource management and exception 
+translation.
+
+------------------------------------------------------------------------------
+
+The Template Method Design Pattern is a behavioral design pattern that defines 
+the basic steps of an algorithm in a parent class while allowing child classes 
+to implement or customize certain steps.
+
+In simple words, the parent class decides what steps should be performed and 
+in what order, while child classes decide how some of those steps are performed.
+
+
+The parent class defines the sequence of steps. Child classes provide their own 
+implementations for the steps that vary.
+
+------------------------------------------------------------------------------
+
+A DataSource is a Java interface used to obtain connections to a database. 
+It acts as a source of database connections for an application.
+
+Instead of creating database connections manually every time using 
+DriverManager, an application can use a DataSource to obtain and manage 
+connections more efficiently.
+
+In Spring JDBC, DataSource provides the database connections that JdbcTemplate 
+uses to execute SQL queries.
+
+----------------------------------------------------------------------------
+
+Types of DataSource
+
+Common implementations include:
+
+1. DriverManagerDataSource: Creates a new database connection whenever a 
+connection is requested. It is useful for simple examples and testing, but 
+it does not provide connection pooling.
+
+2. HikariDataSource: Provides connection pooling, allowing connections to be 
+reused instead of repeatedly creating new ones. HikariCP is commonly used by 
+Spring Boot applications.
+
+3. BasicDataSource: Apache Commons DBCP provides this implementation, which 
+supports connection pooling and database connection configuration.
+
+----------------------------------------------------------------------------
+
+Connection pooling is a technique in which a collection of database connections 
+is created and maintained so that an application can reuse them whenever needed.
+
+Normally, establishing a database connection takes time and resources. 
+If an application creates a new connection for every database operation, 
+it can reduce performance. Connection pooling solves this problem by reusing 
+existing connections instead of creating a new one every time.
+
+In Spring Boot, HikariCP is the default connection pool implementation in a 
+typical JDBC setup.
+
+-----------------------------------------------------------------------------
