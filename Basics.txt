@@ -2846,3 +2846,377 @@ DataIntegrityViolationException, not a direct subclass of DataAccessException.
 ------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------
+
+ORM stands for Object-Relational Mapping. It is a technique that allows Java 
+applications to interact with a relational database by mapping Java objects 
+to database tables.
+
+ORM reduces the need to write SQL queries manually for common database 
+operations. Instead, developers can work with Java objects, and the ORM 
+framework handles much of the database interaction.
+
+1. How ORM works
+
+flowchart TD
+    A["Java Application"]
+    B["Java Objects"]
+    C["ORM Framework"]
+    D["SQL Queries"]
+    E["Relational Database"]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> D
+    D --> C
+    C --> B
+
+
+//maps metadata
+//sql generation
+//parameter binding
+//result-set mapping
+//relationship management
+//caching
+//transaction integration
+
+  ---------------------------------------------------------------------------
+
+Hibernate in Java
+
+Hibernate is an ORM (Object-Relational Mapping) framework for Java that 
+simplifies the process of storing, retrieving, updating, and deleting data 
+in a relational database.
+
+Instead of writing SQL queries for every database operation, developers 
+can work with Java objects, and Hibernate generates or executes the 
+required SQL queries.
+
+Hibernate is commonly used with Spring Boot applications to interact with 
+databases such as MySQL and PostgreSQL.
+
+flowchart TD
+    A["Java Application"]
+    B["Java Entity Class"]
+    C["Hibernate ORM"]
+    D["SQL Queries"]
+    E["Database"]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> D
+    D --> C
+    C --> A
+
+
+Explanation:
+1. The Java application creates or accesses an object.
+2. Hibernate maps the Java object to a database table.
+3. Hibernate generates or executes the required SQL query.
+4. The database performs the operation.
+5. Hibernate maps retrieved database records back into Java objects.
+
+
+//hibernate is an implementation of the JPA interface
+
+
+          ┌──────────────────────────────────┐
+          │  JPA (Jakarta Persistence API)   │
+          └──────────────────────────────────┘
+                         │
+                         ▼
+              ┌─────────────────────┐
+              │ Interface /         │
+              │ Specification       │
+              └─────────────────────┘
+                         │
+                         ▼
+              ┌─────────────────────┐
+              │ Hibernate           │
+              │ ORM Implementation  │
+              └─────────────────────┘
+                         │
+                         ▼
+              ┌─────────────────────┐
+              │ JDBC                │
+              └─────────────────────┘
+                         │
+                         ▼
+              ┌─────────────────────┐
+              │ Database            │
+              └─────────────────────┘
+
+------------------------------------------------------------------------------
+
+EntityManager in JPA
+EntityManager is an interface in JPA (Jakarta Persistence API) used to manage 
+entity objects and perform database operations such as inserting, retrieving, 
+updating, and deleting records.
+
+It acts as a bridge between Java entity objects and the persistence context, 
+which keeps track of the entities being managed.
+
+
+
+Persistence Context in JPA
+Persistence Context is an environment in JPA that manages entity objects 
+during their lifecycle. It keeps track of entity objects and their changes 
+so that these changes can be synchronized with the database.
+
+In simple words, the persistence context acts like a temporary working area 
+for entity objects. It remembers which objects are being managed and detects 
+changes made to them.
+
+
+       Java Application
+              |
+              v
+        EntityManager
+              |
+              v
+      Persistence Context
+              |
+              v
+      Managed Entity Objects
+              |
+              v
+     Changes are tracked
+              |
+              v
+       Flush / Commit
+              |
+              v
+          Database
+
+
+
+
+States of an Entity
+
+An entity can have the following states in relation to a persistence context.
+
+State                     	Meaning
+Transient       	          The object is created in Java but is not managed by a persistence context.
+Managed (Persistent)	      The object is associated with a persistence context, and changes to it can be tracked.
+Detached	                  The object was previously managed but is no longer associated with the persistence context.
+Removed	                    The managed entity is marked for deletion from the database.
+
+
+
+
+Important Points
+
+1. An EntityManager manages entities through a persistence context.
+
+2. The persistence context maintains one managed entity instance for a given entity type and primary key within that context.
+
+3. It tracks changes to managed entities through dirty checking.
+
+4. It can reduce repeated database retrievals by returning an already managed entity when appropriate.
+
+5. Changes are synchronized with the database during flushing, but the actual transaction commit is a separate step.
+
+6. The persistence context is not the database itself; it manages entity state in memory.
+
+
+------------------------------------------------------------------------------
+
+@Transactional in Spring
+@Transactional is an annotation in Spring used to manage database transactions 
+automatically. It ensures that a group of database operations is treated 
+as a single unit of work.
+
+If all operations succeed, the transaction can be committed. If a qualifying 
+exception occurs, the transaction can be rolled back.
+
+
+
+        Method is called
+               |
+               v
+    Transaction begins
+               |
+               v
+     Execute database operations
+               |
+               v
+       Did an exception occur?
+           /           \
+         No             Yes
+         |               |
+         v               v
+     Commit          Rollback
+    transaction     transaction
+         |               |
+         v               v
+   Changes saved    Changes undone
+
+
+  ---------------------------------------------------------------------------
+
+@Table Annotation in JPA
+@Table is an annotation in JPA used to specify the database table associated 
+with an entity class.
+
+By default, JPA maps an entity class to a table using its entity name or the 
+configured naming strategy. We use @Table when we want to specify the table 
+name or configure other table-related details.
+
+
+
+
+@Column Annotation in JPA
+@Column is an annotation in JPA used to specify the mapping between a Java 
+entity field and a database table column.
+
+It allows us to customize the column name and define properties such as 
+nullability, uniqueness, length, and whether the column is updatable.
+
+
+
+
+
+@Enumerated Annotation in JPA
+@Enumerated is a JPA annotation used to specify how an enum value in a Java 
+entity should be stored in a database.
+
+An enum is a Java data type that represents a fixed set of constants, such as 
+student status, order status, or user roles.
+
+
+
+
+
+@Lob Annotation in JPA
+@Lob stands for Large Object. It is a JPA annotation used to map a Java field 
+to a database column capable of storing large amounts of data, such as lengthy 
+text or binary content.
+
+It is commonly used to store descriptions, documents, images, audio, 
+or other large data, depending on the database and mapping configuration.
+
+1. Types of LOB
+
+There are two main types of Large Objects.
+
+
+1. CLOB (Character Large Object)
+Used for large character-based data, such as lengthy text, articles, or 
+descriptions.
+
+In JPA, a String field annotated with @Lob is typically mapped to a character 
+large-object type.
+
+
+
+2. BLOB (Binary Large Object)
+Used for large binary data, such as image files, PDFs, audio, or other binary 
+content.
+
+In JPA, a byte[] field annotated with @Lob is typically mapped to a binary 
+large-object type.
+
+
+          Java Entity Field
+                  |
+                  v
+                @Lob
+                  |
+                  v
+          Large Object Type
+             /         \
+            v           v
+          CLOB         BLOB
+            |            |
+            v            v
+       Large Text    Binary Data
+       String        byte[]
+            |            |
+            v            v
+      Text Content    Images / PDFs
+
+
+
+
+
+
+@Transient Annotation in JPA
+@Transient is a JPA annotation used to specify that a field of an entity 
+should not be persisted in the database.
+
+In simple words, the field exists in the Java object, but JPA ignores it when 
+storing and retrieving the entity's persistent state.
+
+          Java Entity Class
+                  |
+                  v
+            Entity Fields
+                  |
+                  v
+          Is @Transient used?
+              /       \
+            Yes        No
+             |          |
+             v          v
+       Not persisted   Persisted
+       by JPA          by JPA
+
+
+
+
+
+@Embeddable and @Embedded Annotations in JPA
+@Embeddable and @Embedded are JPA annotations used to represent a group of 
+related fields as a reusable component inside an entity.
+
+They allow us to organize entity classes without creating a separate database 
+table for the embedded object.
+
+
+1. @Embeddable
+@Embeddable is used on a Java class whose fields can be embedded into another 
+entity.
+
+The class does not have its own table merely because it is marked @Embeddable. 
+Its fields are mapped as part of the owning entity's table.
+
+
+2. @Embedded
+@Embedded is used in an entity class to include an object of an @Embeddable 
+class.
+
+It tells JPA that the object's fields should be mapped as columns in the owning 
+entity's table.
+
+
+
+
+
+@AttributeOverride in JPA
+@AttributeOverride is a JPA annotation used to change the column mapping of a 
+field inherited from or defined in an @Embeddable class when that field is used 
+inside an entity.
+
+In simple words, it allows us to override the default database column name 
+of an embedded object's field without changing the original embeddable class.
+
+
+
+
+
+
+@ElementCollection in JPA
+@ElementCollection is a JPA annotation used to store a collection of basic 
+values or embeddable objects that belong to an entity, without creating a 
+separate entity class for each value.
+
+It is commonly used when one entity has multiple values, such as a student's 
+phone numbers, a user's skills, or an employee's email addresses.
+
+
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
