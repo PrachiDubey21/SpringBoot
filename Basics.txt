@@ -2730,3 +2730,119 @@ In Spring Boot, HikariCP is the default connection pool implementation in a
 typical JDBC setup.
 
 -----------------------------------------------------------------------------
+
+JDBC template 
+
+
+1. update()
+The update() method is used to execute SQL statements that modify database data,
+ such as INSERT, UPDATE, and DELETE.
+
+It returns an integer representing the number of rows affected by the 
+operation.
+
+Example uses:
+- Inserting a new student into the database.
+- Updating a student's age.
+- Deleting a student record.
+
+Return type: int
+
+
+
+2. query()
+The query() method is used to retrieve multiple rows from a database. 
+It executes a SELECT query and converts the returned rows into Java objects 
+or another required format, usually using a RowMapper.
+
+Example uses:
+- Fetching all students from the database.
+- Retrieving all students whose age is greater than 18.
+- Getting a list of student names.
+
+Return type: Often List<T> when used with a RowMapper.
+If no records match, it normally returns an empty list.
+
+
+
+
+
+3. queryForObject()
+The queryForObject() method is used when a query is expected to return 
+exactly one result, such as a single value or one row mapped to a Java object.
+
+Example uses:
+- Finding the total number of students.
+- Fetching a student's name using their ID.
+- Retrieving one student record by ID.
+
+Return type: Depends on the query and mapping, such as Integer, String, or Student.
+
+If the query returns no rows, Spring generally throws an 
+EmptyResultDataAccessException. If a single-result query returns multiple rows, 
+it generally throws an exception as well.
+
+------------------------------------------------------------------------------
+
+//RowMapper is an interface in Spring JDBC used to convert a row of data from a database into a Java object.
+
+
+The mapRow() method is the method defined by the RowMapper interface. 
+It describes how one row of database data should be converted into a Java object.
+
+The mapRow() method receives two parameters:
+- ResultSet: Contains the data retrieved from the database. It allows us to access column values.
+- rowNum: Represents the current row number being processed, starting from 0.
+
+The method returns an object of the required Java type, such as a Student object.
+
+
+
+
+
+BeanPropertyRowMapper is a built-in class in Spring JDBC that automatically 
+maps database table columns to the properties of a Java object.
+
+------------------------------------------------------------------------------
+
+flowchart TD
+    A["SQLException"]
+    B["Spring Exception Translation"]
+    C["DataAccessException"]
+    D["NonTransientDataAccessException"]
+    E["DataIntegrityViolationException"]
+    F["DuplicateKeyException"]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+
+
+Explanation:
+
+1. SQLException – JDBC reports a database error.
+
+2. Spring Exception Translation – Spring identifies the error using database 
+error details.
+
+3. DataAccessException – Base class for Spring data-access exceptions.
+
+4. NonTransientDataAccessException – Represents errors that generally will not 
+succeed simply by retrying the same operation.
+
+5. DataIntegrityViolationException – Represents violations of data integrity 
+constraints.
+
+6. DuplicateKeyException – Represents a duplicate key or unique constraint 
+violation.
+
+
+Note: The arrow from SQLException to Spring's exception hierarchy represents 
+translation, not inheritance. DuplicateKeyException is a subclass of 
+DataIntegrityViolationException, not a direct subclass of DataAccessException.
+
+------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------
