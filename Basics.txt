@@ -3220,3 +3220,251 @@ phone numbers, a user's skills, or an employee's email addresses.
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
+
+Persistence Context in JPA / Hibernate
+A Persistence Context is an environment in JPA that manages entity objects. 
+It keeps track of the objects loaded from or saved to the database and monitors 
+changes made to them.
+
+In simple words, Persistence Context remembers the entity objects and their 
+changes so Hibernate can synchronize those changes with the database.
+
+//it is like a synchronized cache
+
+
+
+
+
+entity managaer
+EntityManager in JPA / Hibernate
+The EntityManager is an interface in JPA that is used to manage entity objects 
+and perform database operations such as inserting, retrieving, updating, 
+and deleting records.
+
+In simple words, EntityManager acts as a bridge between Java entity objects 
+and the database through JPA.
+
+Hibernate provides an implementation of the JPA EntityManager interface.
+
+//it helps us talk to persistent context
+//tracks db records
+
+
+       Java Application
+              |
+              v
+         EntityManager
+              |
+              v
+      Persistence Context
+              |
+              v
+        JPA Provider
+         (Hibernate)
+              |
+              v
+          JDBC Driver
+              |
+              v
+           Database
+
+
+
+Important methods of EntityManager
+
+Method	             Purpose 
+
+persist()	           Saves a new entity.
+find()	             Retrieves an entity using its primary key.
+merge()	             Copies the state of a detached entity into a managed entity.
+remove()	           Marks a managed entity for deletion.
+flush()	             Synchronizes pending changes with the database.
+refresh()	           Reloads an entity's state from the database.
+clear()	             Detaches all managed entities from the persistence context.
+createQuery()	       Creates a JPQL query.
+
+
+
+
+
+
+EntityManagerFactory in JPA / Hibernate
+The EntityManagerFactory is an interface in JPA used to create EntityManager 
+objects. It is generally created once for a persistence unit and reused 
+throughout the application's lifetime.
+
+In simple words, EntityManagerFactory creates EntityManager objects, and 
+EntityManager performs database operations.
+
+Hibernate provides an implementation of this interface.
+
+
+
+       Application
+            |
+            v
+   EntityManagerFactory
+            |
+            | createEntityManager()
+            v
+      EntityManager
+            |
+            v
+   Persistence Context
+            |
+            v
+      Hibernate (JPA)
+            |
+            v
+         Database
+
+
+
+Important methods
+
+Method	                   Purpose
+
+createEntityManager()	     Creates a new EntityManager.
+isOpen()	                 Checks whether the factory is open.
+close()	                   Closes the factory and releases its resources.
+getCriteriaBuilder()	     Provides a builder for creating Criteria API queries.
+
+
+
+
+
+
+              JPA
+               |
+      EntityManagerFactory
+               |
+               v
+       Hibernate JPA Provider
+               |
+               v
+          SessionFactory
+               |
+               | Creates sessions
+               v
+            Session
+               |
+               v
+       Database Operations
+               |
+               v
+            Database
+
+
+
+
+
+
+       EntityManagerFactory
+                |
+                | Creates
+                v
+          EntityManager
+                |
+                | find(), persist(), remove()
+                v
+        Persistence Context
+                |
+                | Tracks entity changes
+                v
+        Flush / SQL Operations
+                |
+                v
+             Database
+
+       @Transactional
+                |
+                v
+    Manages the transaction boundary
+    around database operations
+
+
+
+-----------------------------------------------------------------------------
+
+Entity Life Cycle Phases in JPA / Hibernate — 
+
+The entity life cycle describes the different states through which an entity 
+object passes during its interaction with the database using JPA or Hibernate. 
+These states determine whether an entity is managed by the persistence context 
+and whether changes made to it are tracked and synchronized with the database.
+
+There are four main states of an entity: Transient, Persistent (Managed), 
+Detached, and Removed.
+
+
+1. Transient State
+An entity is in the transient state when an object is created using the new 
+keyword but has not yet been associated with a persistence context. 
+It is an ordinary Java object, and JPA does not track its changes. 
+Creating a transient entity does not automatically insert a record into the 
+database.
+
+
+2. Persistent (Managed) State
+An entity is in the persistent or managed state when it is associated with a 
+persistence context and is managed by the EntityManager. In this state, 
+Hibernate tracks changes made to the entity. These changes can be synchronized 
+with the database during flushing or transaction commit. An entity can enter 
+this state through operations such as persist() or by retrieving an existing 
+record using find().
+
+
+3. Detached State
+An entity is in the detached state when it was previously managed by a 
+persistence context but is no longer associated with it. The Java object 
+continues to exist, but changes made to it are not automatically tracked by 
+that persistence context. An entity can become detached when detach() is called,
+ the persistence context is cleared, or the EntityManager is closed.
+
+
+4. Removed State
+An entity is in the removed state when it is managed by the persistence context 
+but has been marked for deletion using the remove() method. The entity is 
+scheduled for removal, and the corresponding database record is generally 
+deleted when the persistence context is flushed. The deletion is finalized when 
+the transaction successfully commits.
+
+
+
+
+          Create Object
+                |
+                v
+        +----------------+
+        |    Transient   |
+        +----------------+
+                |
+                | persist()
+                v
+        +----------------+
+        |    Managed     |
+        |   (Persistent) |
+        +----------------+
+          |      |      |
+          |      |      | remove()
+          |      |      v
+          |      |  +----------------+
+          |      |  |    Removed     |
+          |      |  +----------------+
+          |      |
+          |      | detach(), clear(),
+          |      | or close EntityManager
+          |      v
+          |  +----------------+
+          |  |    Detached    |
+          |  +----------------+
+          |
+          | Changes tracked automatically
+          | while managed
+          v
+       Database
+       Synchronization
+
+
+
+------------------------------------------------------------------------------
