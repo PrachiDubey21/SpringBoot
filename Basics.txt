@@ -3468,3 +3468,112 @@ the transaction successfully commits.
 
 
 ------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------
+
+Lombok Annotations in Java
+Lombok is a Java library that reduces boilerplate code by automatically 
+generating commonly used methods and constructors during compilation.
+
+
+1. @Getter
+The @Getter annotation automatically generates getter methods for fields in a 
+class. Getter methods are used to access or retrieve the values of variables, 
+especially private fields.
+
+It reduces the need to manually write getter methods for every field.
+
+
+
+2. @Setter
+The @Setter annotation automatically generates setter methods for fields in a 
+class. Setter methods are used to assign or modify the values of variables.
+
+It reduces repetitive code and makes classes shorter and easier to maintain.
+
+
+
+3. @NoArgsConstructor
+The @NoArgsConstructor annotation automatically generates a constructor that 
+takes no arguments.
+
+It allows an object to be created without passing any values during object 
+creation. This annotation is particularly useful in JPA and Hibernate, where entities generally require a public or protected no-argument constructor.
+
+
+
+
+4. @AllArgsConstructor
+The @AllArgsConstructor annotation automatically generates a constructor that 
+accepts one parameter for every instance field in the class.
+
+It allows an object to be initialized by passing values for all its fields at 
+the time of creation. The parameters follow the order of the fields declared in 
+the class.
+
+
+------------------------------------------------------------------------------
+
+JPA Relationships
+JPA relationships define how two entity classes are connected to each other 
+in a Java application. These relationships help represent associations between 
+tables in a relational database.
+
+For example, in a college management system, a student may belong to one 
+department, a department may have many students, and a student may enroll in 
+multiple courses.
+
+JPA provides four main types of relationships:
+
+
+
+1. One-to-One Relationship (@OneToOne)
+A one-to-one relationship means that one entity is associated with only one 
+entity of another type.
+
+For example, one person has one passport, and one passport belongs to one person.
+
+In JPA, the @OneToOne annotation is used to define this relationship between 
+two entity classes. A foreign key is commonly used to connect the corresponding 
+database tables.
+
+
+
+2. One-to-Many Relationship (@OneToMany)
+A one-to-many relationship means that one entity can be associated with 
+multiple entities of another type, while each of those entities is associated 
+with one parent entity.
+
+For example, one department can have many employees, but each employee 
+belongs to one department.
+
+In JPA, the @OneToMany annotation is used to represent this relationship. 
+The foreign key is commonly stored in the table representing the many side.
+
+
+
+3. Many-to-One Relationship (@ManyToOne)
+A many-to-one relationship means that multiple entities can be associated with 
+one entity of another type.
+
+For example, many employees can work in one department.
+
+In JPA, the @ManyToOne annotation defines this relationship. The foreign key is 
+commonly stored in the table on the many side, making this annotation a 
+frequent choice when mapping relationships between database tables.
+
+
+
+4. Many-to-Many Relationship (@ManyToMany)
+A many-to-many relationship means that multiple entities of one type can be 
+associated with multiple entities of another type.
+
+For example, a student can enroll in multiple courses, and each course can have
+ multiple students.
+
+In JPA, the @ManyToMany annotation is used to define this relationship. A join 
+table is commonly required to connect the two database tables through their 
+foreign keys.
+
+
+-----------------------------------------------------------------------------
