@@ -3577,3 +3577,86 @@ foreign keys.
 
 
 -----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
+
+Cascade and CascadeType.PERSIST in JPA
+
+
+1. Cascade in JPA
+Cascade is a feature in JPA that allows an operation performed on one entity to 
+be automatically propagated to its related entities.
+
+For example, suppose a User has a related Profile. When we save the User, 
+we may also want JPA to save the associated Profile automatically instead of 
+saving both entities separately.
+
+Cascade behavior is configured using the cascade attribute of relationship 
+annotations such as @OneToOne, @OneToMany, and @ManyToOne.
+
+
+
+2. CascadeType.PERSIST
+CascadeType.PERSIST propagates the persist() operation from one entity to its 
+related entities.
+
+When we call persist() on an entity, JPA also applies persist() to the 
+associated entities covered by the cascade configuration.
+
+For example, if a User has a Profile and the relationship is configured with 
+CascadeType.PERSIST, persisting the user can also persist the profile.
+
+
+@OneToOne(
+    mappedBy = "user",
+    cascade = CascadeType.PERSIST
+)
+private Profile profile;
+
+
+
+
+
+
+CascadeType.REMOVE in JPA
+CascadeType.REMOVE is a cascade operation in JPA that automatically propagates 
+the remove operation from one entity to its related entities.
+
+When an entity is deleted using entityManager.remove(), JPA also applies the 
+remove operation to associated entities for which CascadeType.REMOVE is 
+configured.
+
+Suppose a User has a Profile. If CascadeType.REMOVE is configured on their 
+relationship, removing the user also schedules the associated profile for 
+deletion.
+
+-------------------------------------------------------------------------------
+
+Lazy Loading is a technique in JPA and Hibernate in which related data is 
+loaded from the database only when it is needed, rather than immediately.
+
+It improves performance by avoiding unnecessary data loading.
+
+It is specified using FetchType.LAZY and is the default for @OneToMany and 
+@ManyToMany relationships.
+
+Example: When we fetch a department, its students are loaded only when we 
+access the students list.
+
+-----------------------------------------------------------------------------
+
+N+1 Problem is a performance issue in JPA and Hibernate where one query 
+fetches the main records, and then N additional queries fetch related data for 
+each record.
+
+Example: If we fetch 10 departments using one query, and Hibernate executes 
+another query for each department to fetch its students, a total of 11 queries 
+are executed.
+
+Solution: Use techniques such as JOIN FETCH or @EntityGraph to fetch related 
+data more efficiently and reduce unnecessary database queries.
+
+
+//1 root query + N relationship queries
+
+-------------------------------------------------------------------------------
