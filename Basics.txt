@@ -3983,3 +3983,204 @@ Commit: Permanently applies the changes to the database.
 Rollback: Cancels the changes made during the transaction.
 
 ----------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+
+                         TRANSACTION PROPERTIES
+
+-----------------------------------------------------------------------------
+
+Transactional propagation
+
+Transaction Propagation in Spring Boot defines how a transaction behaves when 
+one transactional method calls another transactional method.
+
+Should the called method use the existing transaction?
+Should it create a new transaction?
+Should it execute without a transaction?
+
+Spring provides different propagation types through the @Transactional 
+annotation.
+
+
+
+Types of Transaction Propagation
+
+1. REQUIRED (Default)
+- Joins the existing transaction if one is available.
+- Creates a new transaction if no transaction exists.
+- Most commonly used propagation type.
+- All participating operations share the same transaction.
+
+2. REQUIRES_NEW
+- Always creates a new transaction.
+- Suspends the existing transaction, if available.
+- Executes independently of the existing transaction.
+- Commits or rolls back separately.
+
+3. SUPPORTS
+- Joins the existing transaction if available.
+- Executes without a transaction if none exists.
+- Does not create a new transaction.
+
+4. NOT_SUPPORTED
+- Executes without a transaction.
+- Suspends the existing transaction, if available.
+- Resumes the suspended transaction after execution.
+
+5. MANDATORY
+- Requires an existing transaction.
+- Joins the existing transaction.
+- Throws an exception if no transaction exists.
+
+6. NEVER
+- Executes without a transaction.
+- Throws an exception if an existing transaction is present.
+- Does not create a new transaction.
+
+7. NESTED
+- Executes within a nested transaction scope.
+- Uses savepoints when supported by the transaction manager.
+- Allows rollback of nested operations without necessarily rolling back the entire outer transaction.
+- Outer transaction rollback also rolls back nested operations.
+
+
+Important Points
+- Transaction propagation is configured using the @Transactional annotation.
+- Default propagation is REQUIRED.
+- Spring provides seven propagation types.
+- Propagation controls the relationship between transactions, not the isolation of database operations.
+- REQUIRED and REQUIRES_NEW are the most commonly discussed propagation types.
+
+
+---------------------------------------------------------------------------
+
+Transaction Isolation 
+
+Transaction isolation determines how multiple transactions interact with each 
+other when accessing or modifying the same database data concurrently.
+
+It prevents one transaction from interfering with another transaction and helps 
+maintain data consistency.
+
+
+Types of Transaction Isolation
+
+1. READ UNCOMMITTED
+- Lowest level of isolation.
+- Allows a transaction to read uncommitted changes made by another transaction.
+- Dirty reads can occur.
+- May cause inconsistent data.
+
+2. READ COMMITTED
+- Allows a transaction to read only committed data.
+- Prevents dirty reads.
+- Non-repeatable reads can occur.
+- Data may change between two reads within the same transaction.
+
+3. REPEATABLE READ
+- Ensures that repeated reads of the same row return the same values within a transaction.
+- Prevents dirty reads.
+- Prevents non-repeatable reads.
+- Phantom reads may still occur depending on the database implementation.
+
+4. SERIALIZABLE
+- Highest level of transaction isolation.
+- Transactions execute as if they were performed one after another.
+- Prevents dirty reads, non-repeatable reads, and phantom reads.
+- Provides maximum data consistency but may reduce performance and concurrency.
+
+
+Problems in Transaction Isolation
+
+1. Dirty Read
+- Occurs when one transaction reads data modified by another transaction that has not yet committed.
+- If the other transaction rolls back, the read data becomes invalid.
+
+2. Non-Repeatable Read
+- Occurs when a transaction reads the same row twice and gets different values.
+- Happens because another transaction updates and commits that row between the reads.
+
+3. Phantom Read
+- Occurs when a transaction executes the same query twice but gets a different number of rows.
+- Happens because another transaction inserts or deletes rows that match the query condition.
+
+
+Comparison Table
+
+Isolation Level	      Dirty Read	Non-Repeatable Read	Phantom Read
+READ UNCOMMITTED      Possible	        Possible	        Possible
+READ COMMITTED	      Prevented	        Possible	        Possible
+REPEATABLE READ	      Prevented	        Prevented	        Possible
+SERIALIZABLE	      Prevented	        Prevented	        Prevented
+
+
+
+Important Points
+
+- Transaction isolation is one of the four ACID properties.
+- It is configured using the isolation attribute of @Transactional.
+- Default isolation is generally determined by the database connection and transaction manager.
+- Higher isolation provides stronger consistency but can reduce performance.
+- Spring provides five isolation levels through Isolation.
+- Isolation controls how concurrently executing transactions see each other's changes.
+
+
+---------------------------------------------------------------------------
+
+Transaction Timeout 
+
+Transaction timeout specifies the maximum amount of time a transaction is 
+allowed to execute. If the transaction exceeds the specified time, it may be 
+rolled back by the transaction manager.
+
+
+Important Points
+
+- Timeout defines the maximum execution time of a transaction.
+- It helps prevent transactions from running for an unnecessarily long time.
+- It prevents database resources and connections from being occupied for too long.
+- If the transaction exceeds the configured timeout, the transaction manager can mark it for rollback.
+- Timeout is configured using the timeout attribute of the @Transactional annotation.
+- Timeout is generally specified in seconds.
+- The default timeout depends on the transaction manager and its configuration.
+
+-----------------------------------------------------------------------------
+
+Read-Only 
+
+The readOnly attribute of @Transactional indicates whether a transaction 
+is intended only for reading data from the database, without modifying it.
+
+Important Points
+
+1. readOnly = true indicates that the transaction is intended for read-only operations.
+2. It can help improve performance by allowing the transaction manager and persistence provider to optimize database access.
+3. It is commonly used for methods that perform SELECT operations.
+4. It does not guarantee that database modifications will be prevented.
+5. readOnly = false is the default setting.
+6. It can be applied at both class and method levels.
+7. A method-level setting can override the class-level setting.
+
+------------------------------------------------------------------------------
+
+RollbackFor
+
+The rollbackFor attribute specifies which exceptions should cause a 
+transaction to roll back.
+
+By default, Spring rolls back a transaction when an unchecked exception 
+(RuntimeException) or an Error occurs. It does not roll back by default for 
+checked exceptions.
+
+
+Important Points
+
+1. Specifies the exceptions that trigger transaction rollback.
+2. Useful when we want rollback on checked exceptions.
+3. By default, Spring rolls back on unchecked exceptions and errors.
+4. We can specify a single exception or multiple exception classes.
+5. It can be used at both class and method levels.
+6. It helps maintain data consistency when an operation fails.
+
+----------------------------------------------------------------------------
