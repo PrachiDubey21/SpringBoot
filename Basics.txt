@@ -3936,3 +3936,50 @@ It is similar to SQL, but JPQL works with Java entities and their properties,
 whereas SQL works with database tables and columns.
 
 ------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+
+A transaction is a group of one or more database operations that are treated 
+as a single unit of work. These operations are either completed successfully 
+together or cancelled entirely if something goes wrong.
+
+
+ACID properties of a transaction
+
+A database transaction follows four important properties, collectively known 
+as ACID.
+
+1. Atomicity
+Atomicity means that all operations in a transaction are treated as a 
+single unit. Either all operations succeed or none of them are applied.
+
+2. Consistency
+Consistency ensures that a transaction takes the database from one 
+valid state to another valid state while maintaining database constraints 
+and rules.
+
+3. Isolation
+Isolation ensures that multiple transactions executing simultaneously 
+do not interfere with each other's intermediate operations.
+
+4. Durability
+Durability ensures that once a transaction is successfully 
+committed, its changes remain permanently saved, even if the system 
+crashes afterward.
+
+---------------------------------------------------------------------------
+
+Transaction in Spring Boot and Hibernate
+In Spring Boot, we commonly use the @Transactional annotation to 
+manage database transactions.
+
+example -> 
+1. When createStudent() is called, Spring starts a transaction.
+2. The studentRepository.save(student) method executes the database operation.
+3. If everything executes successfully, Spring commits the transaction.
+4. If an unchecked exception occurs, Spring rolls back the transaction by default.
+
+Commit: Permanently applies the changes to the database.
+Rollback: Cancels the changes made during the transaction.
+
+----------------------------------------------------------------------------
